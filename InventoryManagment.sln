@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataTypes", "DataTypes", "{406ADFCC-DE20-45FF-AEBF-36E00A08CC2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{5967450F-8687-4372-A983-C9CA04E7D213}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{85C8F52B-7F5D-4AE1-BE3C-AED49F9B68CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Startup", "Startup", "{CCA92B9E-2B6A-4E46-B387-BD71662C93FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Converters", "Converters", "{68F9C416-B880-4E00-8505-208CD9B04662}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagment.Startup", "Startup\InventoryManagment.Startup\InventoryManagment.Startup.csproj", "{9C2272DA-526F-455B-8EC7-203C8F691DB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagment.Converters", "Converters\InventoryManagment.Converters\InventoryManagment.Converters.csproj", "{F7D26E98-27F2-411E-9FCD-DFC7F6C52A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagment.Helpers", "Helpers\InventoryManagment.Helpers\InventoryManagment.Helpers.csproj", "{2BBF1246-5F99-45E6-AE21-99A951C95A44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagment.Models", "Models\InventoryManagment.Models\InventoryManagment.Models.csproj", "{530A84DA-CCDD-4BF7-B665-2DB4B6DEB1FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManagment.DataTypes", "DataTypes\InventoryManagment.DataTypes\InventoryManagment.DataTypes.csproj", "{7B09F093-8B8F-49B3-ABC2-EB117CCB696E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C2272DA-526F-455B-8EC7-203C8F691DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C2272DA-526F-455B-8EC7-203C8F691DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C2272DA-526F-455B-8EC7-203C8F691DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C2272DA-526F-455B-8EC7-203C8F691DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7D26E98-27F2-411E-9FCD-DFC7F6C52A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7D26E98-27F2-411E-9FCD-DFC7F6C52A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7D26E98-27F2-411E-9FCD-DFC7F6C52A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7D26E98-27F2-411E-9FCD-DFC7F6C52A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BBF1246-5F99-45E6-AE21-99A951C95A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BBF1246-5F99-45E6-AE21-99A951C95A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BBF1246-5F99-45E6-AE21-99A951C95A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BBF1246-5F99-45E6-AE21-99A951C95A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{530A84DA-CCDD-4BF7-B665-2DB4B6DEB1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{530A84DA-CCDD-4BF7-B665-2DB4B6DEB1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{530A84DA-CCDD-4BF7-B665-2DB4B6DEB1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{530A84DA-CCDD-4BF7-B665-2DB4B6DEB1FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B09F093-8B8F-49B3-ABC2-EB117CCB696E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B09F093-8B8F-49B3-ABC2-EB117CCB696E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B09F093-8B8F-49B3-ABC2-EB117CCB696E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B09F093-8B8F-49B3-ABC2-EB117CCB696E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C2272DA-526F-455B-8EC7-203C8F691DB0} = {CCA92B9E-2B6A-4E46-B387-BD71662C93FF}
+		{F7D26E98-27F2-411E-9FCD-DFC7F6C52A1E} = {68F9C416-B880-4E00-8505-208CD9B04662}
+		{2BBF1246-5F99-45E6-AE21-99A951C95A44} = {85C8F52B-7F5D-4AE1-BE3C-AED49F9B68CB}
+		{530A84DA-CCDD-4BF7-B665-2DB4B6DEB1FD} = {5967450F-8687-4372-A983-C9CA04E7D213}
+		{7B09F093-8B8F-49B3-ABC2-EB117CCB696E} = {406ADFCC-DE20-45FF-AEBF-36E00A08CC2A}
+	EndGlobalSection
+EndGlobal
