@@ -8,13 +8,16 @@
                       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                       xmlns:cal="http://www.caliburnproject.org"
                       mc:Ignorable="d"
-                      Title="ShellView" Height="700" Width="1000" GlowBrush="{DynamicResource AccentBaseColorBrush}">
-    <Grid>
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      WindowStartupLocation="CenterScreen"
+                      Width="1050"
+                      Height="700">
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <!--<DataGrid Name="Vendors"/>
+        --><!--<DataGrid Name="Vendors"/>
         <TextBlock Name="Count" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="150"/>-->
         <!--<RepeatButton Name="IncrementCount"
                 VerticalAlignment="Center"
@@ -40,10 +43,14 @@
                       HorizontalAlignment="Right"
                       Content="2Up"
                       FontSize="150"
-            cal:Message.Attach="[Event Click] = [Action IncrementCount(2)]"/>-->
+            cal:Message.Attach="[Event Click] = [Action IncrementCount(2)]"/>--><!--
         <ContentControl Name="ColorModel" Margin="10" Grid.Column="0"/>
         <Rectangle Fill="{Binding Color}" Grid.Column="1" Width="400" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         
+    </Grid>-->
+    <Grid Margin="10">
+        <controls:MetroAnimatedTabControl x:Name="Items">
+        </controls:MetroAnimatedTabControl>
     </Grid>
 </controls:MetroWindow>
 

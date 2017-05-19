@@ -81,18 +81,50 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Events\ColorEvent.cs" />
+    <Compile Include="ViewModels\AccessoryTabViewModel.cs" />
+    <Compile Include="ViewModels\BrandTabViewModel.cs" />
+    <Compile Include="ViewModels\CategoryTabViewModel.cs" />
+    <Compile Include="ViewModels\CustomerTabViewModel.cs" />
+    <Compile Include="ViewModels\DialogService.cs" />
+    <Compile Include="ViewModels\MobileTabViewModel.cs" />
+    <Compile Include="ViewModels\OrderTabViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModelBase.cs" />
+    <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="MefBootstrapper.cs" />
     <Compile Include="ViewModels\ColorViewModel.cs" />
+    <Compile Include="ViewModels\ITab.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\VendorTabViewModel.cs" />
+    <Compile Include="Views\AccessoryTabView.xaml.cs">
+      <DependentUpon>AccessoryTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BrandTabView.xaml.cs">
+      <DependentUpon>BrandTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CategoryTabView.xaml.cs">
+      <DependentUpon>CategoryTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ColorView.xaml.cs">
       <DependentUpon>ColorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CustomerTabView.xaml.cs">
+      <DependentUpon>CustomerTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MobileTabView.xaml.cs">
+      <DependentUpon>MobileTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrderTabView.xaml.cs">
+      <DependentUpon>OrderTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\VendorView.xaml.cs">
+      <DependentUpon>VendorView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,11 +163,39 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\AccessoryTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BrandTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CategoryTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ColorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CustomerTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MobileTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrderTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VendorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,0 +1,459 @@
+﻿<UserControl x:Class="InventoryManagment.Startup.Views.MobileTabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:InventoryManagment.Startup.Views"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d"
+             d:DesignHeight="600"
+             d:DesignWidth="1050">
+    <Grid>
+        <controls:MetroAnimatedTabControl>
+            <controls:MetroTabItem>
+                <controls:MetroTabItem.HeaderTemplate>
+                    <ItemContainerTemplate>
+                        <TextBlock FontSize="18"
+                                   Margin="5">Search Mobile:</TextBlock>
+                    </ItemContainerTemplate>
+                </controls:MetroTabItem.HeaderTemplate>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="135"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Header="Search criteria:"
+                              Grid.Row="0"
+                              Grid.ColumnSpan="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"></RowDefinition>
+                                <RowDefinition Height="40"></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="65"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="65"></ColumnDefinition>
+                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                <ColumnDefinition Width="130" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Margin="5"
+                                       Grid.Column="0"
+                                       Grid.Row="0">Name:</TextBlock>
+                            <TextBox Grid.Column="1"
+                                     Grid.Row="0"
+                                     Margin="5"
+                                     Width="180"
+                                     Text="{Binding Path=QueryProductName, Mode=OneWayToSource}"></TextBox>
+
+                            <TextBlock Grid.Column="2"
+                                       Grid.Row="0"
+                                       Margin="5">CategoryModel:</TextBlock>
+                            <ComboBox Grid.Column="3"
+                                      Grid.Row="0"
+                                      Width="180"
+                                      Margin="5"
+                                      controls:TextBoxHelper.ClearTextButton="True"
+                                      ItemsSource="{Binding Path=Categories, Mode=OneWay}"
+                                      DisplayMemberPath="Name"
+                                      Text="{Binding Path=QueryProductCategory, Mode=OneWayToSource}"
+                                      SelectedIndex="0"
+                                      IsEditable="True" />
+
+                            <TextBlock Grid.Column="0"
+                                       Grid.Row="1"
+                                       Margin="5">Vendor:</TextBlock>
+                            <ComboBox Grid.Column="1"
+                                      Grid.Row="1"
+                                      Width="180"
+                                      controls:TextBoxHelper.ClearTextButton="True"
+                                      Margin="5"
+                                      SelectedIndex="0"
+                                      IsEditable="True"
+                                      ItemsSource="{Binding Path=Producers, Mode=OneWay}"
+                                      DisplayMemberPath="Name"
+                                      Text="{Binding Path=QueryProductProducer, Mode=OneWayToSource}" />
+
+                            <TextBlock Grid.Column="2"
+                                       Grid.Row="1"
+                                       Margin="5">Provider:</TextBlock>
+                            <ComboBox Grid.Column="3"
+                                      Grid.Row="1"
+                                      Width="180"
+                                      controls:TextBoxHelper.ClearTextButton="True"
+                                      Margin="5"
+                                      SelectedIndex="0"
+                                      IsEditable="True"
+                                      ItemsSource="{Binding Path=Suppliers, Mode=OneWay}"
+                                      DisplayMemberPath="Name"
+                                      Text="{Binding Path=QueryProductSupplier, Mode=OneWayToSource}">
+                                <ComboBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Refersh List"
+                                                  cal:Message.Attach="RefreshSuppliersList"></MenuItem>
+                                    </ContextMenu>
+
+                                </ComboBox.ContextMenu>
+                            </ComboBox>
+
+                            <Button x:Name="SearchMobiles"
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="4">Search for Mobiles</Button>
+                        </Grid>
+
+                    </GroupBox>
+
+                    <GroupBox Header="list of Mobiles:"
+                              Grid.Column="0"
+                              Grid.Row="1">
+                        <ListView Margin="0, 10, 0, 0"
+                                  BorderThickness="0"
+                                  ItemsSource="{Binding Path=MobilesFromQuery}"
+                                  SelectedIndex="0"
+                                  SelectionMode="Single"
+                                  SelectedItem="{Binding Path=SelectedProductFromQuery}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding Id}"
+                                                    Header="Id"
+                                                    Width="50" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Name}"
+                                                    Header="Name"
+                                                    Width="150" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Category.Name}"
+                                                    Header="CategoryModel"
+                                                    Width="100" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Producer.Name}"
+                                                    Header="Vendor"
+                                                    Width="100" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Supplier.Name}"
+                                                    Header="Provider"
+                                                    Width="100" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </GroupBox>
+
+                    <GroupBox Header="Details of the selected Mobile:"
+                              Grid.Column="1"
+                              Grid.Row="1">
+                        <StackPanel Orientation="Vertical">
+
+                            <Label>Model:</Label>
+                            <TextBox Text="{Binding Path=SelectedProductFromQuery.Name, Mode=OneWay}"></TextBox>
+
+                            <Label>Description:</Label>
+                            <TextBox Height="60"
+                                     Text="{Binding Path=SelectedProductFromQuery.Description, Mode=OneWay}"></TextBox>
+
+                            <Label>Price:</Label>
+                            <TextBox Text="{Binding Path=SelectedProductFromQuery.Price, Mode=OneWay}"></TextBox>
+
+                            <Label>CategoryModel:</Label>
+                            <TextBox Height="25"
+                                     Text="{Binding Path=SelectedProductFromQuery.Category.Name, Mode=OneWay}"></TextBox>
+
+                            <Label>Vendor:</Label>
+                            <TextBox Margin="0,5,0,40"
+                                     Text="{Binding Path=SelectedProductFromQuery.Producer.Name, Mode=OneWay}"></TextBox>
+
+                            <Label>Provider:</Label>
+                            <TextBox Height="25"
+                                     Text="{Binding Path=SelectedProductFromQuery.Supplier.Name, Mode=OneWay}"></TextBox>
+
+
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+
+            </controls:MetroTabItem>
+
+            <controls:MetroTabItem>
+                <controls:MetroTabItem.HeaderTemplate>
+                    <ItemContainerTemplate>
+                        <TextBlock FontSize="18"
+                                   Margin="5">Manage your products and categories</TextBlock>
+                    </ItemContainerTemplate>
+                </controls:MetroTabItem.HeaderTemplate>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80" />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Find a Mobile:"
+                              Grid.Row="0">
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+                            <Label Content="Enter the Mobile Imei1 number:" />
+                            <TextBox Margin="10,0,5,0"
+                                     Width="200"
+                                     Text="{Binding Path=EditProductId}"></TextBox>
+                            <Button x:Name="GetProductById"
+                                    Margin="0,0,10,0"
+                                    Width="200"
+                                    Height="30">Search:</Button>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Mobile details:`"
+                              Grid.Row="1"
+                              Margin="5">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="34" />
+                                <RowDefinition Height="56" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="200" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Margin="0,3,0,2">Model:</Label>
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     Text="{Binding Path=EditMobile.MobileModel, Mode=TwoWay}"
+                                     Height="30"
+                                     VerticalAlignment="Top"
+                                     Margin="0,3,0,0"></TextBox>
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Margin="0,2">Imei 1:</Label>
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="1"
+                                     Text="{Binding Path=EditMobile.Imei1, Mode=TwoWay}"
+                                     Margin="0,2" />
+
+                            <Label Grid.Row="3"
+                                   Grid.Column="0"
+                                   Margin="0,2"
+                                   Height="30">Mobile Price:</Label>
+                            <TextBox Grid.Row="3"
+                                     Grid.Column="1"
+                                     Text="{Binding Path=EditMobile.Price, Mode=TwoWay}"
+                                     Margin="0,2"
+                                     Height="30" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="2"
+                                   Margin="0,3,10,2">Category:</Label>
+                            <ComboBox Grid.Row="0"
+                                      Grid.Column="3"
+                                      ItemsSource="{Binding Path=CategoryModel.Categories, Mode=TwoWay}"
+                                      DisplayMemberPath="CategoryName"
+                                      SelectedItem="{Binding Path=EditCategory.CategoryName, Mode=TwoWay}"
+                                      Margin="0,3,-1,2"
+                                      HorizontalAlignment="Right"
+                                      Width="201" />
+
+                            <Label Grid.Row="1"
+                                   Grid.Column="2"
+                                   Margin="0,2,10,2">Vendor:</Label>
+                            <ComboBox Grid.Row="1"
+                                      Grid.Column="3"
+                                      Margin="0,2,-1,2"
+                                      ItemsSource="{Binding Path=VendorModel.Vendors, Mode=TwoWay}"
+                                      DisplayMemberPath="VendorName"
+                                      SelectedItem="{Binding Path=EditVendor.VendorName, Mode=TwoWay}"
+                                      HorizontalAlignment="Right"
+                                      Width="201" />
+
+                            <Label Grid.Row="3"
+                                   Grid.Column="2"
+                                   Margin="0,2"
+                                   Height="30"
+                                   Content="Condition:"
+                                   HorizontalAlignment="Left"
+                                   Width="111" />
+                            <ComboBox Grid.Row="3"
+                                      Grid.Column="3"
+                                      ItemsSource="{Binding Path=PhoneConditions, Mode=TwoWay}"
+                                      DisplayMemberPath="ConditionName"
+                                      SelectedItem="{Binding Path=ConditionName, Mode=TwoWay}"
+                                      Margin="0,2,-1,2"
+                                      Height="30"
+                                      HorizontalAlignment="Right"
+                                      Width="201" />
+
+                            <Button x:Name="UpdateProduct"
+                                    Margin="350,-79,-253,83"
+                                    Grid.Column="3"
+                                    Height="30">Save Edit Mobile</Button>
+                            <Button x:Name="DeleteProduct"
+                                    Grid.Column="3"
+                                    Margin="459,-79,-356,83"
+                                    Height="30">Delete Product</Button>
+                            <Label Grid.Row="2"
+                                   Grid.Column="0"
+                                   Margin="0,2"
+                                   Content="Imei 2:" />
+                            <TextBox Grid.Row="2"
+                                     Grid.Column="1"
+                                     Text="{Binding EditMobile.Imei2, Mode=TwoWay}"
+                                     Margin="0,2" />
+                            <Label Grid.Row="4"
+                                   Grid.Column="0"
+                                   Margin="0,2,0,24"
+                                   Height="30"
+                                   Content="Expire Warranty:" />
+                            <TextBox Grid.Row="4"
+                                     Grid.Column="1"
+                                     Text="{Binding EditMobile.WarrantyVoid, Mode=TwoWay}"
+                                     Margin="0,2,0,24"
+                                     Height="30" />
+                            <Label Grid.Row="3"
+                                   Grid.Column="3"
+                                   Margin="209,2,-78,2"
+                                   Height="30"
+                                   Content="Battary:" />
+                            <TextBox Grid.Row="3"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.Battary, Mode=TwoWay}"
+                                     Margin="284,2,-181,2"
+                                     Height="30" />
+                            <Label Grid.Row="2"
+                                   Grid.Column="3"
+                                   Margin="209,2,-78,2"
+                                   Content="Rom:" />
+                            <TextBox Grid.Row="2"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.Rom, Mode=TwoWay}"
+                                     Margin="284,2,-181,2" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="3"
+                                   Margin="209,3,-78,1"
+                                   Height="30"
+                                   Content="Ram:" />
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.Ram, Mode=TwoWay}"
+                                     Margin="284,2,-181,2"
+                                     Height="30" />
+                            <Label Grid.Column="3"
+                                   Margin="209,2,-78,2"
+                                   Content="Mobile OS:" />
+                            <TextBox Grid.Column="3"
+                                     Text="{Binding EditMobile.Os, Mode=TwoWay}"
+                                     Margin="284,2,-181,2" />
+                            <Label Grid.Row="2"
+                                   Grid.Column="2"
+                                   Margin="2,2,10,2"
+                                   Content="Type:" />
+                            <Label Grid.Column="3"
+                                   Margin="384,2,-253,2"
+                                   Content="CPU:" />
+                            <TextBox Grid.Column="3"
+                                     Text="{Binding EditMobile.Cpu, Mode=TwoWay}"
+                                     Margin="456,2,-359,2"
+                                     Width="98" />
+                            <Label Grid.Row="3"
+                                   Grid.Column="3"
+                                   Margin="384,3,-253,1"
+                                   Height="30"
+                                   Content="Display:" />
+                            <TextBox Grid.Row="3"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.Display, Mode=TwoWay}"
+                                     Margin="459,3,-356,1"
+                                     Height="30" />
+                            <Label Grid.Row="2"
+                                   Grid.Column="3"
+                                   Margin="384,3,-253,1"
+                                   Content="Front Cam:" />
+                            <TextBox Grid.Row="2"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.FrontCamera, Mode=TwoWay}"
+                                     Margin="459,3,-356,1" />
+                            <Label Grid.Row="1"
+                                   Grid.Column="3"
+                                   Margin="384,4,-253,0"
+                                   Height="30"
+                                   Content="Rare Cam:" />
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.RearCamera, Mode=TwoWay}"
+                                     Margin="459,3,-356,1"
+                                     Height="30" />
+                            <!--<ComboBox Grid.Row="2"
+                                      Grid.Column="3"
+                                      ItemsSource="{Binding PhoneTypes, Mode=TwoWay}"
+                                      DisplayMemberPath="TypeName"
+                                      SelectedItem="{Binding PhoneTypes.TypeName, Mode=TwoWay}"
+                                      Margin="3,2,-3,2"
+                                      Height="30" />-->
+                            <ComboBox Grid.Row="2"
+                                      Grid.Column="3"
+                                      x:Name="PhoneTypes"
+                                      SelectedValuePath="{Binding SelectedPhoneType,Mode=TwoWay}"
+                                      DisplayMemberPath="TypeName"
+                                      Margin="0,2,-1,2"
+                                      Height="30"
+                                      HorizontalAlignment="Right"
+                                      Width="201" />
+                            <Button x:Name="AddMobile"
+                                    Margin="387,5,-356,21"
+                                    Grid.Column="3"
+                                    Height="30"
+                                    Content="Add New Mobile"
+                                    Grid.Row="4" />
+                            <Label Grid.Row="4"
+                                   Grid.Column="2"
+                                   Margin="0,2,0,24"
+                                   Height="30"
+                                   Content="Brand:"
+                                   HorizontalAlignment="Left"
+                                   Width="111" />
+                            <ComboBox Grid.Row="4"
+                                      Grid.Column="3"
+                                      ItemsSource="{Binding PhoneConditions, Mode=TwoWay}"
+                                      DisplayMemberPath="ConditionName"
+                                      SelectedItem="{Binding ConditionName, Mode=TwoWay}"
+                                      Margin="0,2,-1,24"
+                                      Height="30"
+                                      HorizontalAlignment="Right"
+                                      Width="201" />
+                            <Label Grid.Row="4"
+                                   Grid.Column="3"
+                                   Margin="209,3,-78,23"
+                                   Height="30"
+                                   Content="Stock:" />
+                            <TextBox Grid.Row="4"
+                                     Grid.Column="3"
+                                     Text="{Binding EditMobile.Battary, Mode=TwoWay}"
+                                     Margin="284,3,-181,23"
+                                     Height="30" />
+                        </Grid>
+
+                    </GroupBox>
+                    <ContentControl Grid.Row="2"
+                                    Name="CategoryModel" />
+                </Grid>
+
+            </controls:MetroTabItem>
+
+        </controls:MetroAnimatedTabControl>
+    </Grid>
+</UserControl>

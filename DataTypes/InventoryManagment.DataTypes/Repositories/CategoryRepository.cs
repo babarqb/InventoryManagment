@@ -10,5 +10,9 @@ namespace InventoryManagment.DataTypes.Repositories
 
         }
 
+        public void UpdateCategory(Category category)
+        {
+            AppDbContext.Categories.Update(category);
+        }
     }
 }

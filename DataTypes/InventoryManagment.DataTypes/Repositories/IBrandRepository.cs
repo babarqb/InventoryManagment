@@ -1,6 +1,8 @@
-﻿namespace InventoryManagment.DataTypes.Repositories
+﻿using InventoryManagment.Models.Domains;
+
+namespace InventoryManagment.DataTypes.Repositories
 {
-    public interface IBrandRepository
+    public interface IBrandRepository : IRepository<Brand>
     {
     }
 }
