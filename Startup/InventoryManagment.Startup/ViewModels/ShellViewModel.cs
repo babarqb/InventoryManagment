@@ -4,14 +4,16 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Caliburn.Micro;
 using InventoryManagment.DataTypes;
 using InventoryManagment.Models.Domains;
+using InventoryManagment.Startup.Events;
 
 namespace InventoryManagment.Startup.ViewModels
 {
     [Export(typeof(IShell))]
-    public class ShellViewModel : PropertyChangedBase, IShell
+    public class ShellViewModel : PropertyChangedBase, IShell, IHandle<ColorEvent>
     {
         private IEnumerable<Category> _category;
         private IEnumerable<Vendor> _vendors;
@@ -47,6 +49,56 @@ namespace InventoryManagment.Startup.ViewModels
             }
         }
 
+
+
+
+        private int _count = 0;
+
+        public int Count
+        {
+            get { return _count; }
+            set
+            {
+                _count = value;
+                NotifyOfPropertyChange(() => Count);
+                NotifyOfPropertyChange(() => CanIncrementCount);
+            }
+        }
+
+
+        public bool CanIncrementCount => Count < 10;
+
+        public void IncrementCount()
+        {
+            Count++;
+        }
+        public void IncrementCount(int delta)
+        {
+            Count += delta;
+        }
+
+        [ImportingConstructor]
+        public ShellViewModel(ColorViewModel colorModel, IEventAggregator events)
+        {
+            ColorModel = colorModel;
+            events.Subscribe(this);
+        }
+
+        public ColorViewModel ColorModel { get; private set; }
+
+        private SolidColorBrush _color;
+
+        public SolidColorBrush Color
+        {
+            get { return _color; }
+            set
+            {
+                _color = value;
+                NotifyOfPropertyChange(() => Color);
+            }
+        }
+
+
         //public event PropertyChangedEventHandler PropertyChanged;
 
         //[NotifyPropertyChangedInvocator]
@@ -54,5 +106,9 @@ namespace InventoryManagment.Startup.ViewModels
         //{
         //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         //}
+        public void Handle(ColorEvent message)
+        {
+            Color = message.Color;
+        }
     }
 }
