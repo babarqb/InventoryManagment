@@ -4,7 +4,7 @@ namespace InventoryManagment.DataTypes.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
-        IMobileRepository Mobiles { get; }
+        IMobileRepository Mobiles { get; set; }
         IAccessoryRepository Accessories { get; }
         IBrandRepository Brands { get; }
         IVendorRepository Vendors { get; }

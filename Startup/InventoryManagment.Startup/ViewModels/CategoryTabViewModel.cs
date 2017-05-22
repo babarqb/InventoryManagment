@@ -25,8 +25,8 @@ namespace InventoryManagment.Startup.ViewModels
             DisplayName = "Categories";
             Categories = new BindableCollection<Category>(_context.Categories.GetAll());
 
-            if (Categories.Count > 0)
-                EditCategory = Categories[0];
+            ////if (Categories.Count > 0)
+            ////    EditCategory = Categories[0];
         }
 
         public BindableCollection<Category> Categories
@@ -42,7 +42,7 @@ namespace InventoryManagment.Startup.ViewModels
         public void AddNewCategory()
         {
             //EditCategory = new Category();
-            _context.Categories.Add(new Category() {CategoryName = EditCategory.CategoryName});
+            _context.Categories.Add(new Category() { CategoryName = EditCategory.CategoryName });
             _context.Complete();
             Categories = new BindableCollection<Category>(_context.Categories.GetAll());
 

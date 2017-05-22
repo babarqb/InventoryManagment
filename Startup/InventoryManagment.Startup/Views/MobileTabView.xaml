@@ -118,27 +118,30 @@
                               Grid.Row="1">
                         <ListView Margin="0, 10, 0, 0"
                                   BorderThickness="0"
-                                  ItemsSource="{Binding Path=MobilesFromQuery}"
+                                  ItemsSource="{Binding Path=MobileFromQuery,Mode=TwoWay}"
                                   SelectedIndex="0"
                                   SelectionMode="Single"
                                   SelectedItem="{Binding Path=SelectedProductFromQuery}">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn DisplayMemberBinding="{Binding Id}"
-                                                    Header="Id"
-                                                    Width="50" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Name}"
-                                                    Header="Name"
-                                                    Width="150" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Category.Name}"
-                                                    Header="CategoryModel"
+                                    <GridViewColumn DisplayMemberBinding="{Binding MobileModel}"
+                                                    Header="Model"
                                                     Width="100" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Producer.Name}"
+                                    <GridViewColumn DisplayMemberBinding="{Binding Imei1}"
+                                                    Header="Imei 1"
+                                                    Width="100" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Brand.BrandName}"
+                                                    Header="Brand"
+                                                    Width="100" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding Vendor.VendorName}"
                                                     Header="Vendor"
                                                     Width="100" />
-                                    <GridViewColumn DisplayMemberBinding="{Binding Supplier.Name}"
-                                                    Header="Provider"
-                                                    Width="100" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding MobilePrice}"
+                                                    Header="Price"
+                                                    Width="50" />
+                                    <GridViewColumn DisplayMemberBinding="{Binding StockSize}"
+                                                    Header="Stock"
+                                                    Width="50" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -184,7 +187,7 @@
                 <controls:MetroTabItem.HeaderTemplate>
                     <ItemContainerTemplate>
                         <TextBlock FontSize="18"
-                                   Margin="5">Manage your products and categories</TextBlock>
+                                   Margin="5">Manage your Mobiles and Categories</TextBlock>
                     </ItemContainerTemplate>
                 </controls:MetroTabItem.HeaderTemplate>
 
@@ -223,233 +226,188 @@
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="120" />
-                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="100*" />
+                                <ColumnDefinition Width="200*" />
+                                <ColumnDefinition Width="100*" />
+                                <ColumnDefinition Width="200*" />
+                                <ColumnDefinition Width="75*" />
+                                <ColumnDefinition Width="132*" />
+                                <ColumnDefinition Width="75*" />
+                                <ColumnDefinition Width="132*" />
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Row="0"
                                    Grid.Column="0"
-                                   Margin="0,3,0,2">Model:</Label>
+                                   Margin="1,3,4,2">Model:</Label>
                             <TextBox Grid.Row="0"
                                      Grid.Column="1"
                                      Text="{Binding Path=EditMobile.MobileModel, Mode=TwoWay}"
                                      Height="30"
                                      VerticalAlignment="Top"
-                                     Margin="0,3,0,0"></TextBox>
+                                     Margin="1,2,2,0" />
 
                             <Label Grid.Row="1"
                                    Grid.Column="0"
-                                   Margin="0,2">Imei 1:</Label>
+                                   Margin="0,2,4,2">Imei 1:</Label>
                             <TextBox Grid.Row="1"
                                      Grid.Column="1"
                                      Text="{Binding Path=EditMobile.Imei1, Mode=TwoWay}"
-                                     Margin="0,2" />
-
-                            <Label Grid.Row="3"
-                                   Grid.Column="0"
-                                   Margin="0,2"
-                                   Height="30">Mobile Price:</Label>
-                            <TextBox Grid.Row="3"
-                                     Grid.Column="1"
-                                     Text="{Binding Path=EditMobile.Price, Mode=TwoWay}"
-                                     Margin="0,2"
-                                     Height="30" />
-
-                            <Label Grid.Row="0"
-                                   Grid.Column="2"
-                                   Margin="0,3,10,2">Category:</Label>
-                            <ComboBox Grid.Row="0"
-                                      Grid.Column="3"
-                                      ItemsSource="{Binding Path=CategoryModel.Categories, Mode=TwoWay}"
-                                      DisplayMemberPath="CategoryName"
-                                      SelectedItem="{Binding Path=EditCategory.CategoryName, Mode=TwoWay}"
-                                      Margin="0,3,-1,2"
-                                      HorizontalAlignment="Right"
-                                      Width="201" />
-
-                            <Label Grid.Row="1"
-                                   Grid.Column="2"
-                                   Margin="0,2,10,2">Vendor:</Label>
-                            <ComboBox Grid.Row="1"
-                                      Grid.Column="3"
-                                      Margin="0,2,-1,2"
-                                      ItemsSource="{Binding Path=VendorModel.Vendors, Mode=TwoWay}"
-                                      DisplayMemberPath="VendorName"
-                                      SelectedItem="{Binding Path=EditVendor.VendorName, Mode=TwoWay}"
-                                      HorizontalAlignment="Right"
-                                      Width="201" />
-
-                            <Label Grid.Row="3"
-                                   Grid.Column="2"
-                                   Margin="0,2"
-                                   Height="30"
-                                   Content="Condition:"
-                                   HorizontalAlignment="Left"
-                                   Width="111" />
-                            <ComboBox Grid.Row="3"
-                                      Grid.Column="3"
-                                      ItemsSource="{Binding Path=PhoneConditions, Mode=TwoWay}"
-                                      DisplayMemberPath="ConditionName"
-                                      SelectedItem="{Binding Path=ConditionName, Mode=TwoWay}"
-                                      Margin="0,2,-1,2"
-                                      Height="30"
-                                      HorizontalAlignment="Right"
-                                      Width="201" />
-
-                            <Button x:Name="UpdateProduct"
-                                    Margin="350,-79,-253,83"
-                                    Grid.Column="3"
-                                    Height="30">Save Edit Mobile</Button>
-                            <Button x:Name="DeleteProduct"
-                                    Grid.Column="3"
-                                    Margin="459,-79,-356,83"
-                                    Height="30">Delete Product</Button>
+                                     Margin="2" />
                             <Label Grid.Row="2"
                                    Grid.Column="0"
-                                   Margin="0,2"
+                                   Margin="0,2,3,2"
                                    Content="Imei 2:" />
                             <TextBox Grid.Row="2"
                                      Grid.Column="1"
                                      Text="{Binding EditMobile.Imei2, Mode=TwoWay}"
-                                     Margin="0,2" />
+                                     Margin="2" />
+
+                            <Label Grid.Row="3"
+                                   Grid.Column="0"
+                                   Margin="0,2">Mobile Price:</Label>
+                            <TextBox Grid.Row="3"
+                                     Grid.Column="1"
+                                     Text="{Binding Path=EditMobile.MobilePrice, Mode=TwoWay}"
+                                     Margin="2" />
                             <Label Grid.Row="4"
                                    Grid.Column="0"
-                                   Margin="0,2,0,24"
-                                   Height="30"
+                                   Margin="0,2,3,24"
                                    Content="Expire Warranty:" />
-                            <TextBox Grid.Row="4"
-                                     Grid.Column="1"
-                                     Text="{Binding EditMobile.WarrantyVoid, Mode=TwoWay}"
-                                     Margin="0,2,0,24"
-                                     Height="30" />
-                            <Label Grid.Row="3"
-                                   Grid.Column="3"
-                                   Margin="209,2,-78,2"
-                                   Height="30"
-                                   Content="Battary:" />
-                            <TextBox Grid.Row="3"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.Battary, Mode=TwoWay}"
-                                     Margin="284,2,-181,2"
-                                     Height="30" />
-                            <Label Grid.Row="2"
-                                   Grid.Column="3"
-                                   Margin="209,2,-78,2"
-                                   Content="Rom:" />
-                            <TextBox Grid.Row="2"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.Rom, Mode=TwoWay}"
-                                     Margin="284,2,-181,2" />
+                            <!--                            <TextBox Grid.Row="4"-->
+                            <!--                                     Grid.Column="1"-->
+                            <!--                                     Text="{Binding EditMobile.WarrantyVoid, Mode=TwoWay}"-->
+                            <!--                                     Margin="2,2,2,24" />-->
+                            <DatePicker Grid.Row="4"
+                                        Grid.Column="1"
+                                        Margin="2,2,2,24"
+                                        SelectedDate="{Binding EditMobile.WarrantyVoid, Mode=TwoWay}"
+                                        controls:TextBoxHelper.UseFloatingWatermark="False"
+                                        controls:TextBoxHelper.Watermark="Select a date" />
+
+                            <Label Grid.Row="0"
+                                   Grid.Column="2"
+                                   Margin="2"
+                                   HorizontalAlignment="Right"
+                                   Width="100">Category:</Label>
+                            <ComboBox Grid.Row="0"
+                                      Grid.Column="3"
+                                      ItemsSource="{Binding Path=CategoryModel.Categories, Mode=TwoWay}"
+                                      DisplayMemberPath="CategoryName"
+                                      SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                                      Margin="2" />
+
                             <Label Grid.Row="1"
-                                   Grid.Column="3"
-                                   Margin="209,3,-78,1"
-                                   Height="30"
-                                   Content="Ram:" />
-                            <TextBox Grid.Row="1"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.Ram, Mode=TwoWay}"
-                                     Margin="284,2,-181,2"
-                                     Height="30" />
-                            <Label Grid.Column="3"
-                                   Margin="209,2,-78,2"
-                                   Content="Mobile OS:" />
-                            <TextBox Grid.Column="3"
-                                     Text="{Binding EditMobile.Os, Mode=TwoWay}"
-                                     Margin="284,2,-181,2" />
+                                   Grid.Column="2"
+                                   Margin="2">Vendor:</Label>
+                            <ComboBox Grid.Row="1"
+                                      Grid.Column="3"
+                                      Margin="2"
+                                      ItemsSource="{Binding Path=VendorModel.Vendors, Mode=TwoWay}"
+                                      DisplayMemberPath="VendorName"
+                                      SelectedItem="{Binding SelectedVendor, Mode=TwoWay}" />
                             <Label Grid.Row="2"
                                    Grid.Column="2"
-                                   Margin="2,2,10,2"
+                                   Margin="2"
                                    Content="Type:" />
-                            <Label Grid.Column="3"
-                                   Margin="384,2,-253,2"
-                                   Content="CPU:" />
-                            <TextBox Grid.Column="3"
-                                     Text="{Binding EditMobile.Cpu, Mode=TwoWay}"
-                                     Margin="456,2,-359,2"
-                                     Width="98" />
-                            <Label Grid.Row="3"
-                                   Grid.Column="3"
-                                   Margin="384,3,-253,1"
-                                   Height="30"
-                                   Content="Display:" />
-                            <TextBox Grid.Row="3"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.Display, Mode=TwoWay}"
-                                     Margin="459,3,-356,1"
-                                     Height="30" />
-                            <Label Grid.Row="2"
-                                   Grid.Column="3"
-                                   Margin="384,3,-253,1"
-                                   Content="Front Cam:" />
-                            <TextBox Grid.Row="2"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.FrontCamera, Mode=TwoWay}"
-                                     Margin="459,3,-356,1" />
-                            <Label Grid.Row="1"
-                                   Grid.Column="3"
-                                   Margin="384,4,-253,0"
-                                   Height="30"
-                                   Content="Rare Cam:" />
-                            <TextBox Grid.Row="1"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.RearCamera, Mode=TwoWay}"
-                                     Margin="459,3,-356,1"
-                                     Height="30" />
-                            <!--<ComboBox Grid.Row="2"
-                                      Grid.Column="3"
-                                      ItemsSource="{Binding PhoneTypes, Mode=TwoWay}"
-                                      DisplayMemberPath="TypeName"
-                                      SelectedItem="{Binding PhoneTypes.TypeName, Mode=TwoWay}"
-                                      Margin="3,2,-3,2"
-                                      Height="30" />-->
                             <ComboBox Grid.Row="2"
                                       Grid.Column="3"
-                                      x:Name="PhoneTypes"
-                                      SelectedValuePath="{Binding SelectedPhoneType,Mode=TwoWay}"
+                                      ItemsSource="{Binding PhoneTypes, Mode=TwoWay}"
+                                      SelectedItem="{Binding SelectedPhoneType, Mode=TwoWay}"
                                       DisplayMemberPath="TypeName"
-                                      Margin="0,2,-1,2"
-                                      Height="30"
-                                      HorizontalAlignment="Right"
-                                      Width="201" />
-                            <Button x:Name="AddMobile"
-                                    Margin="387,5,-356,21"
-                                    Grid.Column="3"
-                                    Height="30"
-                                    Content="Add New Mobile"
-                                    Grid.Row="4" />
+                                      Margin="2" />
+
+                            <Label Grid.Row="3"
+                                   Grid.Column="2"
+                                   Margin="2,2,0,2"
+                                   Content="Condition:"
+                                   HorizontalAlignment="Left"
+                                   Width="116" />
+                            <ComboBox Grid.Row="3"
+                                      Grid.Column="3"
+                                      ItemsSource="{Binding Path=PhoneConditions, Mode=TwoWay}"
+                                      DisplayMemberPath="ConditionName"
+                                      SelectedItem="{Binding SelectedCondition, Mode=TwoWay}"
+                                      Margin="2" />
                             <Label Grid.Row="4"
                                    Grid.Column="2"
-                                   Margin="0,2,0,24"
-                                   Height="30"
+                                   Margin="2,2,0,24"
                                    Content="Brand:"
                                    HorizontalAlignment="Left"
-                                   Width="111" />
+                                   Width="116" />
                             <ComboBox Grid.Row="4"
                                       Grid.Column="3"
-                                      ItemsSource="{Binding PhoneConditions, Mode=TwoWay}"
-                                      DisplayMemberPath="ConditionName"
-                                      SelectedItem="{Binding ConditionName, Mode=TwoWay}"
-                                      Margin="0,2,-1,24"
-                                      Height="30"
-                                      HorizontalAlignment="Right"
-                                      Width="201" />
+                                      ItemsSource="{Binding BrandModel.Brands, Mode=TwoWay}"
+                                      DisplayMemberPath="BrandName"
+                                      SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
+                                      Margin="2,2,2,24" />
+                            <Grid Grid.ColumnSpan="4"
+                                  Grid.Column="4"
+                                  Margin="2"
+                                  Grid.RowSpan="4"
+                                  IsEnabled="{Binding CanEditMobile}">
+                                <Label Margin="0,0,344,102"
+                                       Content="OS:" />
+                                <TextBox Text="{Binding EditMobile.Os, Mode=TwoWay}"
+                                         Margin="76,0,210,102" />
+                                <Label Margin="0,34,344,68"
+                                       Content="Ram:" />
+                                <TextBox Text="{Binding EditMobile.Ram, Mode=TwoWay}"
+                                         Margin="76,34,210,68" />
+                                <Label Margin="0,68,344,34"
+                                       Content="Rom:" />
+                                <TextBox Text="{Binding EditMobile.Rom, Mode=TwoWay}"
+                                         Margin="76,68,210,34" />
+                                <Label Margin="0,102,344,0"
+                                       Content="Battary:" />
+                                <TextBox Text="{Binding EditMobile.Battary, Mode=TwoWay}"
+                                         Margin="76,102,210,0" />
+                                <Label Margin="210,0,134,102"
+                                       Content="CPU:"
+                                       Width="72" />
+                                <TextBox Text="{Binding EditMobile.Cpu, Mode=TwoWay}"
+                                         Margin="286,0,0,102" />
+                                <Label Margin="210,34,134,68"
+                                       Content="Rare Cam:" />
+                                <TextBox Text="{Binding EditMobile.RearCamera, Mode=TwoWay}"
+                                         Margin="286,34,0,68" />
+                                <Label Margin="210,68,134,34"
+                                       Content="Front Cam:" />
+                                <TextBox Text="{Binding EditMobile.FrontCamera, Mode=TwoWay}"
+                                         Margin="286,68,0,34" />
+                                <Label Margin="210,102,134,0"
+                                       Content="Display:" />
+                                <TextBox Text="{Binding EditMobile.Display, Mode=TwoWay}"
+                                         Margin="286,102,0,0" />
+                            </Grid>
                             <Label Grid.Row="4"
-                                   Grid.Column="3"
-                                   Margin="209,3,-78,23"
-                                   Height="30"
+                                   Grid.Column="4"
+                                   Margin="2,2,2,23"
                                    Content="Stock:" />
                             <TextBox Grid.Row="4"
-                                     Grid.Column="3"
-                                     Text="{Binding EditMobile.Battary, Mode=TwoWay}"
-                                     Margin="284,3,-181,23"
+                                     Grid.Column="5"
+                                     Text="{Binding EditMobile.StockSize, Mode=TwoWay}"
+                                     Margin="2,2,84,24"
                                      Height="30" />
+                            <Button x:Name="UpdateProduct"
+                                    Margin="55,3,73,23"
+                                    Grid.Column="5"
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="4"
+                                    Content="Save/Edit " />
+                            <Button x:Name="DeleteProduct"
+                                    Grid.Column="6"
+                                    Margin="8,3,117,23"
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="4"
+                                    Content="Delete " />
+                            <Button x:Name="AddMobile"
+                                    Margin="24,3,2,23"
+                                    Grid.Column="7"
+                                    Content="Add New Mobile"
+                                    Grid.Row="4" />
                         </Grid>
-
                     </GroupBox>
-                    <ContentControl Grid.Row="2"
-                                    Name="CategoryModel" />
+                    <ContentControl Grid.Row="2" Name="CategoryModel" />
                 </Grid>
 
             </controls:MetroTabItem>

@@ -34,9 +34,10 @@ namespace InventoryManagment.Startup
             _container.Singleton<AppDbContext>();
             _container.PerRequest<IShell, ShellViewModel>();
             _container.PerRequest<CategoryTabViewModel>();
+            _container.PerRequest<BrandTabViewModel>();
+            _container.PerRequest<VendorTabViewModel>();
             _container.PerRequest<ITab, MobileTabViewModel>();
             _container.PerRequest<ITab, VendorTabViewModel>();
-            _container.PerRequest<VendorTabViewModel>();
             _container.PerRequest<ITab, OrderTabViewModel>();
             _container.PerRequest<ITab, BrandTabViewModel>();
             _container.PerRequest<ITab, CategoryTabViewModel>();

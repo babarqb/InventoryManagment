@@ -24,7 +24,7 @@ namespace InventoryManagment.DataTypes
 
         }
         public ICategorypository Categories { get; }
-        public IMobileRepository Mobiles { get; }
+        public IMobileRepository Mobiles { get; set; }
         public IAccessoryRepository Accessories { get; }
         public IBrandRepository Brands { get; }
         public IVendorRepository Vendors { get; }

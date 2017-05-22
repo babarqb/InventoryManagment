@@ -13,11 +13,55 @@ namespace InventoryManagment.Startup.ViewModels
         private readonly IUnitOfWork _context;
         private CategoryTabViewModel _categoryModel;
         private Mobile _editMobile;
+
         private VendorTabViewModel _vendorModel;
         private BindableCollection<PhoneCondition> _phoneConditions;
         private BindableCollection<PhoneType> _phoneTypes;
+        private bool _canEditMobile;
+        private BrandTabViewModel _brandModel;
+        private Vendor _selectedVendor;
+        private bool _canPhoneTypes;
+        private PhoneType _selectedPhoneType;
+        private Category _selectedCategory;
+        private Brand _selectedBrand;
+        private PhoneCondition _selectedCondition;
 
+        public MobileTabViewModel(IUnitOfWork context,
+            CategoryTabViewModel categoryModel,
+            VendorTabViewModel vendorModel,
+            BrandTabViewModel brandModel)
+        {
+            _context = context;
+            CategoryModel = categoryModel;
+            VendorModel = vendorModel;
+            BrandModel = brandModel;
+            DisplayName = "Mobiles";
+            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+            EditMobile = new Mobile();
+            SelectedPhoneType = new PhoneType() { TypeName = "SmartPhone" };
+            _editMobile.Cpu = "0";
+            _editMobile.Battary = "0";
+            _editMobile.RearCamera = "0";
+            _editMobile.FrontCamera = "0";
+            _editMobile.Os = "0";
+            _editMobile.Display = "0";
+            _editMobile.Battary = "0";
+            _editMobile.Ram = "0";
+            _editMobile.Rom = "0";
+        }
 
+        public BrandTabViewModel BrandModel
+        {
+            get
+            {
+                return _brandModel;
+            }
+            set
+            {
+                _brandModel = value;
+                NotifyOfPropertyChange(() => BrandModel);
+            }
+        }
         public CategoryTabViewModel CategoryModel
         {
             get
@@ -30,34 +74,112 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => CategoryModel);
             }
         }
-        [ImportingConstructor]
-        public MobileTabViewModel(IUnitOfWork context, CategoryTabViewModel categoryModel, VendorTabViewModel vendorModel)
+        public VendorTabViewModel VendorModel
         {
+            get { return _vendorModel; }
+            set
+            {
+                _vendorModel = value;
+                NotifyOfPropertyChange(() => VendorModel);
+            }
+        }
+        private BindableCollection<Mobile> _mobileFromQuery;
 
-            CategoryModel = categoryModel;
-            VendorModel = vendorModel;
-            DisplayName = "Mobiles";
-            //CategoryModel = new CategoryTabViewModel(new UnitOfWork(new AppDbContext()));
-            //LoadTypeAndCondition();
-            EditMobile = new Mobile();
+        public BindableCollection<Mobile> MobileFromQuery
+        {
+            get { return _mobileFromQuery; }
+            set
+            {
+                _mobileFromQuery = value;
+                NotifyOfPropertyChange(() => MobileFromQuery);
+            }
         }
 
-        //private void LoadTypeAndCondition()
-        //{
-        //    PhoneTypes = new BindableCollection<PhoneType>()
-        //    {
-        //        new PhoneType() {PhoneTypeId = 1, TypeName = "FeaturePhone"},
-        //        new PhoneType() {PhoneTypeId = 2, TypeName = "SmartPhone"}
-        //    };
-        //    PhoneConditions = new BindableCollection<PhoneCondition>
-        //    {
-        //        new PhoneCondition() {ConditionId = 1, ConditionName = "NewPhone"},
-        //        new PhoneCondition() {ConditionId = 2, ConditionName = "BrandPhone"},
-        //    };
-        //}
+        public Mobile EditMobile
+        {
+            get { return _editMobile; }
+            set
+            {
+                _editMobile = value;
+                NotifyOfPropertyChange(() => EditMobile);
+                NotifyOfPropertyChange(() => CanEditMobile);
+            }
+        }
+        public bool CanEditMobile
+        {
+            get
+            {
+                //if (EditMobile.Type == "SmartPhone")
+                //{
+                //_canEditMobile = true;
+                //}
+                return SelectedPhoneType.TypeName == "SmartPhone";
+            }
+            set
+            {
 
-        public BindableCollection<Mobile> MobilesFromQuery { get; set; }
+                _canEditMobile = value;
+                NotifyOfPropertyChange(() => CanEditMobile);
+            }
+        }
+        public bool CanPhoneTypes
+        {
+            get { return EditMobile.Type == "FeaturePhone"; }
+            set
+            {
+                _canPhoneTypes = value;
+                NotifyOfPropertyChange(() => CanPhoneTypes);
+            }
+        }
 
+        public PhoneType SelectedPhoneType
+        {
+            get { return _selectedPhoneType; }
+            set
+            {
+                _selectedPhoneType = value;
+                NotifyOfPropertyChange(() => SelectedPhoneType);
+                NotifyOfPropertyChange(() => CanEditMobile);
+            }
+        }
+        public Vendor SelectedVendor
+        {
+            get { return _selectedVendor; }
+            set
+            {
+                _selectedVendor = value;
+                NotifyOfPropertyChange(() => SelectedVendor);
+            }
+        }
+
+        public Category SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set
+            {
+                _selectedCategory = value;
+                NotifyOfPropertyChange(() => SelectedCategory);
+            }
+        }
+        public Brand SelectedBrand
+        {
+            get { return _selectedBrand; }
+            set
+            {
+                _selectedBrand = value;
+                NotifyOfPropertyChange(() => SelectedBrand);
+            }
+        }
+
+        public PhoneCondition SelectedCondition
+        {
+            get { return _selectedCondition; }
+            set
+            {
+                _selectedCondition = value;
+                NotifyOfPropertyChange(() => SelectedCondition);
+            }
+        }
         public BindableCollection<PhoneType> PhoneTypes
         {
             get
@@ -74,15 +196,14 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => PhoneTypes);
             }
         }
-
         public BindableCollection<PhoneCondition> PhoneConditions
         {
             get
             {
                 return new BindableCollection<PhoneCondition>()
                 {
-                    new PhoneCondition() {ConditionId = 1, ConditionName = "NewPhone"},
-                    new PhoneCondition() {ConditionId = 2, ConditionName = "BrandPhone"},
+                    new PhoneCondition() {ConditionId = 1, ConditionName = "New"},
+                    new PhoneCondition() {ConditionId = 2, ConditionName = "Used"},
                 };
             }
             set
@@ -92,66 +213,38 @@ namespace InventoryManagment.Startup.ViewModels
             }
         }
 
-        public Mobile EditMobile
-        {
-            get { return _editMobile; }
-            set
-            {
-                _editMobile = value;
-                NotifyOfPropertyChange(() => EditMobile);
-            }
-        }
-
-        public VendorTabViewModel VendorModel
-        {
-            get { return _vendorModel; }
-            set
-            {
-                _vendorModel = value;
-                NotifyOfPropertyChange(() => VendorModel);
-            }
-        }
-
-        public PhoneType SelectedPhoneType { get; set; }
-
         public void AddMobile()
         {
-
-            //var ne = new Mobile()
-            //{
-            //    Imei1 = EditMobile.Imei1,
-            //    Imei2 = EditMobile.Imei2,
-            //    CategoryId = CategoryModel.EditCategory.CategoryId,
-            //    VendorId = VendorModel.EditVendor.VendorId,
-            //    Type = SelectedPhoneType.TypeName,
-            //    WarrantyVoid = DateTime.Now,
-            //    Os = "Android 6",
-            //    StockSize = 2,
-            //    RearCamera = "12mp",
-            //    FrontCamera = "6mp",
-            //    Ram = "2GB",
-            //    Rom = "8GB",
-            //    Battary = "2000mhz",
-            //    MobileModel = "j500",
-            //    BrandId = 1,
-
-
-            //};
 
 
             _context.Mobiles.Add(new Mobile()
             {
                 Imei1 = EditMobile.Imei1,
                 Imei2 = EditMobile.Imei2,
-                CategoryId = CategoryModel.EditCategory.CategoryId,
-                VendorId = VendorModel.EditVendor.VendorId,
-
+                VendorId = SelectedVendor.VendorId,
+                CategoryId = SelectedCategory.CategoryId,
+                BrandId = SelectedBrand.BrandId,
                 Type = SelectedPhoneType.TypeName,
-
+                WarrantyVoid = EditMobile.WarrantyVoid,
                 MobileModel = EditMobile.MobileModel,
-
+                RearCamera = EditMobile.RearCamera + "mp",
+                FrontCamera = EditMobile.FrontCamera + "mp",
+                Ram = EditMobile.Ram + "gb",
+                Rom = EditMobile.Rom + "gb",
+                Display = EditMobile.Display + "inch",
+                StockSize = EditMobile.StockSize,
+                Os = EditMobile.Os,
+                MobilePrice = EditMobile.MobilePrice,
+                Cpu = EditMobile.Cpu + "mhz",
+                Condition = SelectedCondition.ConditionName,
+                Brand = SelectedBrand,
+                Category = SelectedCategory,
+                Vendor = SelectedVendor,
+                Battary = EditMobile.Battary + "mhz"
             });
-
+            _context.Complete();
+            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+            EditMobile = new Mobile();
         }
 
     }

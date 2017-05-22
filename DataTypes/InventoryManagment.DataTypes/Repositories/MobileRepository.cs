@@ -11,5 +11,10 @@ namespace InventoryManagment.DataTypes.Repositories
         {
 
         }
+
+        public void AddMobile(Mobile mobile)
+        {
+
+        }
     }
 }

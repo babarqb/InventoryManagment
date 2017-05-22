@@ -12,7 +12,11 @@ namespace InventoryManagment.Startup.ViewModels
         public VendorTabViewModel(IUnitOfWork context)
         {
             DisplayName = "Vendors";
-            Vendors = new BindableCollection<Vendor>(context.Vendors.GetAll());
+            Vendors = new BindableCollection<Vendor>(context.Vendors.GetAllVendor());
+            //if (Vendors.Count > 0)
+            //{
+            //    EditVendor = Vendors[0];
+            //}
         }
 
         public BindableCollection<Vendor> Vendors
