@@ -32,6 +32,7 @@ namespace InventoryManagment.Models.Domains
         public string Cpu { get; set; }
         [Required]
         public decimal MobilePrice { get; set; }
+        public decimal MobileRetailPrice { get; set; }
         public string Display { get; set; }
         [Required]
         public int StockSize { get; set; }

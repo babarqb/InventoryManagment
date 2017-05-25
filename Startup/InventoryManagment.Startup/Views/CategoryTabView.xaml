@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:InventoryManagment.Startup.Views"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1050">
@@ -23,7 +24,7 @@
                           ItemsSource="{Binding Path=Categories}"
                           SelectedIndex="0"
                           SelectionMode="Single"
-                          SelectedItem="{Binding Path=EditCategory}">
+                          SelectedItem="{Binding Path=SelectedCategory}">
                     <ListView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Delete category..."
@@ -55,13 +56,14 @@
 
                 <StackPanel Orientation="Vertical">
                     <Label>Name:</Label>
-                    <TextBox  Text="{Binding Path=EditCategory.CategoryName, Mode=TwoWay}"></TextBox>
+                    <TextBox  Text="{Binding Path=EditCategory.CategoryName, Mode=TwoWay}"
+                             controls:TextBoxHelper.ClearTextButton="True" />
 
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Center">
                         <Button x:Name="AddNewCategory"
                                 Margin="10,5">Add a new category</Button>
-                        <Button cal:Message.Attach="UpdateCategory"
+                        <Button x:Name="UpdateCategory"
                                 Margin="10,5">Save Changes</Button>
                     </StackPanel>
                 </StackPanel>

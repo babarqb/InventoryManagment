@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using InventoryManagment.DataTypes;
 using InventoryManagment.DataTypes.Repositories;
 using InventoryManagment.Models.Domains;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace InventoryManagment.Startup.ViewModels
 {
@@ -39,41 +40,41 @@ namespace InventoryManagment.Startup.ViewModels
             MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
             EditMobile = new Mobile();
             SelectedPhoneType = new PhoneType() { TypeName = "SmartPhone" };
-            _editMobile.Cpu = "0";
-            _editMobile.Battary = "0";
-            _editMobile.RearCamera = "0";
-            _editMobile.FrontCamera = "0";
-            _editMobile.Os = "0";
-            _editMobile.Display = "0";
-            _editMobile.Battary = "0";
-            _editMobile.Ram = "0";
-            _editMobile.Rom = "0";
+            _editMobile.StockSize = 1;
+            //_editMobile.Battary = "";
+            //_editMobile.RearCamera = "";
+            //_editMobile.FrontCamera = "";
+            //_editMobile.Os = "";
+            //_editMobile.Display = "";
+            //_editMobile.Battary = "";
+            //_editMobile.Ram = "";
+            //_editMobile.Rom = "";
+
+            SelectedCategory = new Category();
+            SelectedBrand = new Brand();
+            SelectedVendor = new Vendor();
         }
 
         public BrandTabViewModel BrandModel
         {
-            get
-            {
-                return _brandModel;
-            }
+            get { return _brandModel; }
             set
             {
                 _brandModel = value;
                 NotifyOfPropertyChange(() => BrandModel);
             }
         }
+
         public CategoryTabViewModel CategoryModel
         {
-            get
-            {
-                return _categoryModel;
-            }
+            get { return _categoryModel; }
             set
             {
                 _categoryModel = value;
                 NotifyOfPropertyChange(() => CategoryModel);
             }
         }
+
         public VendorTabViewModel VendorModel
         {
             get { return _vendorModel; }
@@ -83,6 +84,7 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => VendorModel);
             }
         }
+
         private BindableCollection<Mobile> _mobileFromQuery;
 
         public BindableCollection<Mobile> MobileFromQuery
@@ -105,6 +107,7 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => CanEditMobile);
             }
         }
+
         public bool CanEditMobile
         {
             get
@@ -120,8 +123,10 @@ namespace InventoryManagment.Startup.ViewModels
 
                 _canEditMobile = value;
                 NotifyOfPropertyChange(() => CanEditMobile);
+                NotifyOfPropertyChange(() => CanDatePickerShow);
             }
         }
+
         public bool CanPhoneTypes
         {
             get { return EditMobile.Type == "FeaturePhone"; }
@@ -131,6 +136,21 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => CanPhoneTypes);
             }
         }
+
+        private Mobile _selectedMobile;
+        private bool _canDatePickerShow;
+
+        public Mobile SelectedMobile
+        {
+            get { return _selectedMobile; }
+            set
+            {
+                _selectedMobile = value;
+                NotifyOfPropertyChange(() => SelectedMobile);
+            }
+        }
+
+
 
         public PhoneType SelectedPhoneType
         {
@@ -142,6 +162,7 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => CanEditMobile);
             }
         }
+
         public Vendor SelectedVendor
         {
             get { return _selectedVendor; }
@@ -161,6 +182,7 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => SelectedCategory);
             }
         }
+
         public Brand SelectedBrand
         {
             get { return _selectedBrand; }
@@ -180,6 +202,7 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => SelectedCondition);
             }
         }
+
         public BindableCollection<PhoneType> PhoneTypes
         {
             get
@@ -196,6 +219,7 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => PhoneTypes);
             }
         }
+
         public BindableCollection<PhoneCondition> PhoneConditions
         {
             get
@@ -213,40 +237,198 @@ namespace InventoryManagment.Startup.ViewModels
             }
         }
 
-        public void AddMobile()
+        public async void AddMobile()
         {
-
-
-            _context.Mobiles.Add(new Mobile()
+            if (EditMobile != null)
             {
-                Imei1 = EditMobile.Imei1,
-                Imei2 = EditMobile.Imei2,
-                VendorId = SelectedVendor.VendorId,
-                CategoryId = SelectedCategory.CategoryId,
-                BrandId = SelectedBrand.BrandId,
-                Type = SelectedPhoneType.TypeName,
-                WarrantyVoid = EditMobile.WarrantyVoid,
-                MobileModel = EditMobile.MobileModel,
-                RearCamera = EditMobile.RearCamera + "mp",
-                FrontCamera = EditMobile.FrontCamera + "mp",
-                Ram = EditMobile.Ram + "gb",
-                Rom = EditMobile.Rom + "gb",
-                Display = EditMobile.Display + "inch",
-                StockSize = EditMobile.StockSize,
-                Os = EditMobile.Os,
-                MobilePrice = EditMobile.MobilePrice,
-                Cpu = EditMobile.Cpu + "mhz",
-                Condition = SelectedCondition.ConditionName,
-                Brand = SelectedBrand,
-                Category = SelectedCategory,
-                Vendor = SelectedVendor,
-                Battary = EditMobile.Battary + "mhz"
-            });
-            _context.Complete();
-            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
-            EditMobile = new Mobile();
+                MessageDialogResult result =
+                    await DialogService.ShowMessage(
+                        "Are you sure you want to Add the selected Mobile: " + EditMobile.MobileModel +
+                        "?\nPlease prudently, as editing changes will be possible!\n\nFor save editing later modify changes and press Edit/Save button",
+                        "Adding " + EditMobile.MobileModel, MessageDialogStyle.AffirmativeAndNegative);
+
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    try
+                    {
+                        _context.Mobiles.Add(new Mobile()
+                        {
+                            Imei1 = EditMobile.Imei1,
+                            Imei2 = EditMobile.Imei2,
+                            VendorId = SelectedVendor.VendorId,
+                            CategoryId = SelectedCategory.CategoryId,
+                            BrandId = SelectedBrand.BrandId,
+                            Type = SelectedPhoneType.TypeName,
+                            WarrantyVoid = EditMobile.WarrantyVoid,
+                            MobileModel = EditMobile.MobileModel,
+                            RearCamera = string.IsNullOrEmpty(EditMobile.RearCamera)
+                                ? "--"
+                                : EditMobile.RearCamera + "MP",
+                            FrontCamera = string.IsNullOrEmpty(EditMobile.FrontCamera)
+                                ? "--"
+                                : EditMobile.FrontCamera + "MP",
+                            Ram = string.IsNullOrEmpty(EditMobile.Ram) ? "--" : EditMobile.Ram + "GB",
+                            Rom = string.IsNullOrEmpty(EditMobile.Rom) ? "--" : EditMobile.Rom + "GB",
+                            Display = string.IsNullOrEmpty(EditMobile.Display) ? "--" : EditMobile.Display + " inch",
+                            StockSize = 1,
+                            Os = string.IsNullOrEmpty(EditMobile.Os) ? "--" : EditMobile.Os,
+                            MobilePrice = EditMobile.MobilePrice,
+                            Cpu = string.IsNullOrEmpty(EditMobile.Cpu) ? "--" : EditMobile.Cpu + "Ghz",
+                            Condition = SelectedCondition.ConditionName,
+                            MobileRetailPrice = EditMobile.MobileRetailPrice,
+                            Brand = SelectedBrand,
+                            Category = SelectedCategory,
+                            Vendor = SelectedVendor,
+                            Battary = string.IsNullOrEmpty(EditMobile.Battary) ? "--" : EditMobile.Battary + "mAh"
+                        });
+                        _context.Complete();
+                        MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                        //NotifyOfPropertyChange(()=> );
+                        await DialogService.ShowMessage(
+                            "Adding Successfully: " + EditMobile.MobileModel + " into database.!!!", "Result",
+                            MessageDialogStyle.Affirmative);
+                        EditMobile = new Mobile();
+                    }
+                    catch (Exception e)
+                    {
+                        await DialogService.ShowMessage(
+                            "Adding the new Mobile is impossible! Please fill all the filed carefully and try agian.",
+                            "Adding " + EditMobile.MobileModel + "have some issue - Error",
+                            MessageDialogStyle.Affirmative);
+                    }
+                }
+            }
+
+
         }
 
+        public void SearchByModel()
+        {
+            if (!string.IsNullOrEmpty(EditMobile.MobileModel))
+            {
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.Find(m => m.MobileModel.ToUpper()
+                    .Contains(EditMobile.MobileModel.ToUpper())));
+                EditMobile.MobileModel = "";
+
+            }
+            else
+            {
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                NotifyOfPropertyChange(() => EditMobile);
+            }
+        }
+
+        public bool CanDatePickerShow
+        {
+            get { return !CanEditMobile; }
+            set
+            {
+                _canDatePickerShow = value;
+                NotifyOfPropertyChange(() => CanDatePickerShow);
+                
+            }
+        }
+
+        public void SearchByCategory()
+        {
+            if (!string.IsNullOrEmpty(SelectedCategory.CategoryName))
+            {
+                MobileFromQuery =
+                    new BindableCollection<Mobile>(
+                        _context.Mobiles.Find(m => m.Category.CategoryName == SelectedCategory.CategoryName));
+                NotifyOfPropertyChange(() => MobileFromQuery);
+            }
+            else
+            {
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                NotifyOfPropertyChange(() => SelectedCategory);
+            }
+        }
+
+        public void SearchByVendor()
+        {
+            if (!string.IsNullOrEmpty(SelectedVendor.VendorName))
+            {
+                MobileFromQuery =
+                    new BindableCollection<Mobile>(
+                        _context.Mobiles.Find(m => m.Vendor.VendorName == SelectedVendor.VendorName));
+                NotifyOfPropertyChange(() => MobileFromQuery);
+            }
+            else
+            {
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                NotifyOfPropertyChange(() => SelectedVendor);
+            }
+        }
+
+        public void SearchByBrand()
+        {
+            if (!string.IsNullOrEmpty(SelectedBrand.BrandName))
+            {
+                MobileFromQuery =
+                    new BindableCollection<Mobile>(
+                        _context.Mobiles.Find(m => m.Brand.BrandName == SelectedBrand.BrandName));
+                NotifyOfPropertyChange(() => MobileFromQuery);
+            }
+            else
+            {
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                NotifyOfPropertyChange(() => SelectedBrand);
+            }
+        }
+
+        public void AllMobiles()
+        {
+            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+        }
+
+        public async void UpdateMobile()
+        {
+            if (EditMobile != null)
+            {
+
+                MessageDialogResult result =
+                    await DialogService.ShowMessage(
+                        "Are you sure you want to save update the selected Mobile: " + EditMobile.MobileModel +
+                        "?\nPlease prudently, as editing changes will be possible!\n\nFor save editing later modify changes and press Edit/Save button",
+                        "Adding " + EditMobile.MobileModel, MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    try
+                    {
+                        EditMobile.CategoryId = SelectedCategory.CategoryId;
+                        EditMobile.BrandId = SelectedBrand.BrandId;
+                        EditMobile.VendorId = SelectedVendor.VendorId;
+                        EditMobile.Type = SelectedPhoneType.TypeName;
+                        EditMobile.Condition = SelectedCondition.ConditionName;
+                        _context.Mobiles.UpdateEditMobile(EditMobile.MobileId);
+                        _context.Complete();
+                        MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                        NotifyOfPropertyChange(() => SelectedMobile);
+                        //NotifyOfPropertyChange(()=>SelectedBrand);
+                        //NotifyOfPropertyChange(()=>SelectedVendor);
+                        //NotifyOfPropertyChange(()=>SelectedPhoneType);
+                        //NotifyOfPropertyChange(()=>SelectedCondition);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+
+            }
+        }
+
+        public void GetProductByImei1()
+        {
+            EditMobile = _context.Mobiles.Find(m => m.Imei1.Contains(EditMobile.Imei1))
+                .FirstOrDefault();
+            //EditMobile.CategoryId = SelectedCategory.CategoryId;
+            //EditMobile.BrandId = SelectedBrand.BrandId;
+            //EditMobile.VendorId = SelectedVendor.VendorId;
+
+        }
     }
 
     public class PhoneType
@@ -254,6 +436,7 @@ namespace InventoryManagment.Startup.ViewModels
         public int PhoneTypeId { get; set; }
         public string TypeName { get; set; }
     }
+
     public class PhoneCondition
     {
         public int ConditionId { get; set; }

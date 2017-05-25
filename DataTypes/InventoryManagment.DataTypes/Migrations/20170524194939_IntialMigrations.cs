@@ -4,10 +4,23 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace InventoryManagment.DataTypes.Migrations
 {
-    public partial class IntialMigration : Migration
+    public partial class IntialMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AccessoryType",
+                columns: table => new
+                {
+                    AccessoryTypeId = table.Column<int>(nullable: false)
+                        .Annotation("SqlCe:ValueGeneration", "True"),
+                    AccessoryTypeName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccessoryType", x => x.AccessoryTypeId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Brands",
                 columns: table => new
@@ -58,18 +71,12 @@ namespace InventoryManagment.DataTypes.Migrations
                         .Annotation("SqlCe:ValueGeneration", "True"),
                     City = table.Column<string>(nullable: true),
                     Contact = table.Column<string>(nullable: true),
-                    VendorId1 = table.Column<int>(nullable: true),
+                    VendorBalance = table.Column<decimal>(nullable: false),
                     VendorName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Vendors", x => x.VendorId);
-                    table.ForeignKey(
-                        name: "FK_Vendors_Vendors_VendorId1",
-                        column: x => x.VendorId1,
-                        principalTable: "Vendors",
-                        principalColumn: "VendorId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,17 +106,26 @@ namespace InventoryManagment.DataTypes.Migrations
                 {
                     AccessoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlCe:ValueGeneration", "True"),
-                    AccessoryDiscripition = table.Column<string>(nullable: true),
-                    AccessoryName = table.Column<string>(nullable: true),
+                    AccessoryCode = table.Column<string>(nullable: true),
+                    AccessoryModel = table.Column<string>(nullable: true),
+                    AccessoryTypeId = table.Column<int>(nullable: false),
                     BrandId = table.Column<int>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
+                    RetailUnitPrice = table.Column<decimal>(nullable: false),
                     StockSize = table.Column<int>(nullable: false),
+                    TotalPrice = table.Column<decimal>(nullable: false),
                     UnitPrice = table.Column<decimal>(nullable: false),
-                    VendorId = table.Column<int>(nullable: true)
+                    VendorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Accessories", x => x.AccessoryId);
+                    table.ForeignKey(
+                        name: "FK_Accessories_AccessoryType_AccessoryTypeId",
+                        column: x => x.AccessoryTypeId,
+                        principalTable: "AccessoryType",
+                        principalColumn: "AccessoryTypeId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Accessories_Brands_BrandId",
                         column: x => x.BrandId,
@@ -147,6 +163,7 @@ namespace InventoryManagment.DataTypes.Migrations
                     Imei2 = table.Column<string>(nullable: true),
                     MobileModel = table.Column<string>(nullable: true),
                     MobilePrice = table.Column<decimal>(nullable: false),
+                    MobileRetailPrice = table.Column<decimal>(nullable: false),
                     Os = table.Column<string>(nullable: true),
                     Ram = table.Column<string>(nullable: true),
                     RearCamera = table.Column<string>(nullable: true),
@@ -185,6 +202,9 @@ namespace InventoryManagment.DataTypes.Migrations
                 {
                     PurchaseOrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlCe:ValueGeneration", "True"),
+                    AmountPay = table.Column<decimal>(nullable: false),
+                    BillNo = table.Column<string>(nullable: true),
+                    PurchaseOrderDate = table.Column<DateTime>(nullable: false),
                     VendorId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -282,7 +302,10 @@ namespace InventoryManagment.DataTypes.Migrations
                     AccessoryId = table.Column<int>(nullable: false),
                     MobileId = table.Column<int>(nullable: false),
                     PurchaseOrderId = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false)
+                    Quantity = table.Column<int>(nullable: false),
+                    RetailPrice = table.Column<decimal>(nullable: false),
+                    TotalPrice = table.Column<decimal>(nullable: false),
+                    UnitPrice = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -342,6 +365,11 @@ namespace InventoryManagment.DataTypes.Migrations
                         principalColumn: "OrderLineItemId",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accessories_AccessoryTypeId",
+                table: "Accessories",
+                column: "AccessoryTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Accessories_BrandId",
@@ -437,11 +465,6 @@ namespace InventoryManagment.DataTypes.Migrations
                 name: "IX_PurchaseOrders_VendorId",
                 table: "PurchaseOrders",
                 column: "VendorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Vendors_VendorId1",
-                table: "Vendors",
-                column: "VendorId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -472,6 +495,9 @@ namespace InventoryManagment.DataTypes.Migrations
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "AccessoryType");
 
             migrationBuilder.DropTable(
                 name: "Brands");

@@ -10,8 +10,10 @@
                       mc:Ignorable="d"
                       GlowBrush="{DynamicResource AccentColorBrush}"
                       WindowStartupLocation="CenterScreen"
+                      TitleCharacterCasing="Normal"
                       Width="1050"
-                      Height="700">
+                      Height="700"
+                      ShowMaxRestoreButton="False">
     <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

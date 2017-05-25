@@ -13,16 +13,21 @@ namespace InventoryManagment.DataTypes
             _context = context;
             Mobiles = new MobileRepository(_context);
             Accessories = new AccessoryRepository(_context);
-            Brands = new BrandRepository(context);
-            Vendors = new VendorRepository(context);
-            Orders = new OrderRepository(context);
-            OrderLineItems = new OrderLineItemRepository(context);
-            Invoices = new InvoiceRepository(context);
-            InvoiceLineItems = new InvoiceLineItemRepository(context);
+            Brands = new BrandRepository(_context);
+            Vendors = new VendorRepository(_context);
+            Orders = new OrderRepository(_context);
+            OrderLineItems = new OrderLineItemRepository(_context);
+            Invoices = new InvoiceRepository(_context);
+            InvoiceLineItems = new InvoiceLineItemRepository(_context);
             Categories = new CategoryRepository(_context);
-            Customers = new CustomerRepository(context);
+            Customers = new CustomerRepository(_context);
+            PurchaseOrders = new PurchaseOrderRepository(_context);
+            PurchaseLineItems = new PurchaseLineItemRepository(_context);
 
         }
+
+        public IPurchaseLineItemRepository PurchaseLineItems { get; set; }
+        public IPurchaseOrderRepository PurchaseOrders { get; set; }
         public ICategorypository Categories { get; }
         public IMobileRepository Mobiles { get; set; }
         public IAccessoryRepository Accessories { get; }

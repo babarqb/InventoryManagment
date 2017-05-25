@@ -8,8 +8,8 @@ using InventoryManagment.DataTypes;
 namespace InventoryManagment.DataTypes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20170518205748_ChangVendorModel")]
-    partial class ChangVendorModel
+    [Migration("20170524194939_IntialMigrations")]
+    partial class IntialMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,21 +21,29 @@ namespace InventoryManagment.DataTypes.Migrations
                     b.Property<int>("AccessoryId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AccessoryDiscripition");
+                    b.Property<string>("AccessoryCode");
 
-                    b.Property<string>("AccessoryName");
+                    b.Property<string>("AccessoryModel");
+
+                    b.Property<int>("AccessoryTypeId");
 
                     b.Property<int>("BrandId");
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<decimal>("RetailUnitPrice");
+
                     b.Property<int>("StockSize");
+
+                    b.Property<decimal>("TotalPrice");
 
                     b.Property<decimal>("UnitPrice");
 
-                    b.Property<int?>("VendorId");
+                    b.Property<int>("VendorId");
 
                     b.HasKey("AccessoryId");
+
+                    b.HasIndex("AccessoryTypeId");
 
                     b.HasIndex("BrandId");
 
@@ -44,6 +52,18 @@ namespace InventoryManagment.DataTypes.Migrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("Accessories");
+                });
+
+            modelBuilder.Entity("InventoryManagment.Models.Domains.AccessoryType", b =>
+                {
+                    b.Property<int>("AccessoryTypeId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AccessoryTypeName");
+
+                    b.HasKey("AccessoryTypeId");
+
+                    b.ToTable("AccessoryType");
                 });
 
             modelBuilder.Entity("InventoryManagment.Models.Domains.Brand", b =>
@@ -159,6 +179,8 @@ namespace InventoryManagment.DataTypes.Migrations
 
                     b.Property<decimal>("MobilePrice");
 
+                    b.Property<decimal>("MobileRetailPrice");
+
                     b.Property<string>("Os");
 
                     b.Property<string>("Ram");
@@ -259,6 +281,12 @@ namespace InventoryManagment.DataTypes.Migrations
 
                     b.Property<int>("Quantity");
 
+                    b.Property<decimal>("RetailPrice");
+
+                    b.Property<decimal>("TotalPrice");
+
+                    b.Property<decimal>("UnitPrice");
+
                     b.HasKey("PurchaseLineItemId");
 
                     b.HasIndex("AccessoryId");
@@ -274,6 +302,12 @@ namespace InventoryManagment.DataTypes.Migrations
                 {
                     b.Property<int>("PurchaseOrderId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("AmountPay");
+
+                    b.Property<string>("BillNo");
+
+                    b.Property<DateTime>("PurchaseOrderDate");
 
                     b.Property<int>("VendorId");
 
@@ -304,6 +338,10 @@ namespace InventoryManagment.DataTypes.Migrations
 
             modelBuilder.Entity("InventoryManagment.Models.Domains.Accessory", b =>
                 {
+                    b.HasOne("InventoryManagment.Models.Domains.AccessoryType", "AccessoryType")
+                        .WithMany("Accessories")
+                        .HasForeignKey("AccessoryTypeId");
+
                     b.HasOne("InventoryManagment.Models.Domains.Brand", "Brand")
                         .WithMany("Accessories")
                         .HasForeignKey("BrandId");
@@ -312,7 +350,7 @@ namespace InventoryManagment.DataTypes.Migrations
                         .WithMany("Accessories")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("InventoryManagment.Models.Domains.Vendor")
+                    b.HasOne("InventoryManagment.Models.Domains.Vendor", "Vendor")
                         .WithMany("Accessories")
                         .HasForeignKey("VendorId");
                 });

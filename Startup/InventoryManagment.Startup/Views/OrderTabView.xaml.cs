@@ -24,5 +24,7 @@ namespace InventoryManagment.Startup.Views
         {
             InitializeComponent();
         }
+
+        
     }
 }

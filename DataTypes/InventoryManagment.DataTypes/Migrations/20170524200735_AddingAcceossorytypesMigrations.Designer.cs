@@ -8,9 +8,10 @@ using InventoryManagment.DataTypes;
 namespace InventoryManagment.DataTypes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170524200735_AddingAcceossorytypesMigrations")]
+    partial class AddingAcceossorytypesMigrations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -306,7 +307,7 @@ namespace InventoryManagment.DataTypes.Migrations
 
                     b.Property<string>("BillNo");
 
-                    b.Property<DateTime?>("PurchaseOrderDate");
+                    b.Property<DateTime>("PurchaseOrderDate");
 
                     b.Property<int>("VendorId");
 

@@ -217,16 +217,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDbContext.cs" />
-    <Compile Include="Migrations\20170518184343_IntialMigration.cs" />
-    <Compile Include="Migrations\20170518184343_IntialMigration.designer.cs">
-      <DependentUpon>20170518184343_IntialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\20170525080029_SetPrimaryKeyofPurchaseOrderModel.cs" />
+    <Compile Include="Migrations\20170525080029_SetPrimaryKeyofPurchaseOrderModel.designer.cs">
+      <DependentUpon>20170525080029_SetPrimaryKeyofPurchaseOrderModel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\20170518205748_ChangVendorModel.cs" />
-    <Compile Include="Migrations\20170518205748_ChangVendorModel.designer.cs">
-      <DependentUpon>20170518205748_ChangVendorModel.cs</DependentUpon>
+    <Compile Include="Repositories\IPurchaseLineItemRepository.cs" />
+    <Compile Include="Repositories\IPurchaseOrderRepository.cs" />
+    <Compile Include="Migrations\20170524194939_IntialMigrations.cs" />
+    <Compile Include="Migrations\20170524194939_IntialMigrations.designer.cs">
+      <DependentUpon>20170524194939_IntialMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170524200735_AddingAcceossorytypesMigrations.cs" />
+    <Compile Include="Migrations\20170524200735_AddingAcceossorytypesMigrations.designer.cs">
+      <DependentUpon>20170524200735_AddingAcceossorytypesMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\AppDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\PurchaseLineItemRepository.cs" />
+    <Compile Include="Repositories\PurchaseOrderRepository.cs" />
     <Compile Include="Repositories\AccessoryRepository.cs" />
     <Compile Include="Repositories\BrandRepository.cs" />
     <Compile Include="Repositories\CategoryRepository.cs" />

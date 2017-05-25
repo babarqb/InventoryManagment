@@ -11,8 +11,10 @@ namespace InventoryManagment.DataTypes.Repositories
         IOrderRepository Orders { get; }
         IOrderLineItemRepository OrderLineItems { get; }
         IInvoiceRepository Invoices { get; }
-        IInvoiceLineItemRepository InvoiceLineItems { get; }
         ICategorypository Categories { get; }
+        IInvoiceLineItemRepository InvoiceLineItems { get; }
+        IPurchaseLineItemRepository PurchaseLineItems { get; }
+        IPurchaseOrderRepository PurchaseOrders { get; }
         int Complete();
     }
 }

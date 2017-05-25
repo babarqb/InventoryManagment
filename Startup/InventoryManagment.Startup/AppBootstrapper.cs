@@ -36,6 +36,11 @@ namespace InventoryManagment.Startup
             _container.PerRequest<CategoryTabViewModel>();
             _container.PerRequest<BrandTabViewModel>();
             _container.PerRequest<VendorTabViewModel>();
+            _container.PerRequest<MobileTabViewModel>();
+            _container.PerRequest<OrderTabViewModel>();
+            _container.PerRequest<AccessoryTabViewModel>();
+            
+
             _container.PerRequest<ITab, MobileTabViewModel>();
             _container.PerRequest<ITab, VendorTabViewModel>();
             _container.PerRequest<ITab, OrderTabViewModel>();

@@ -17,6 +17,7 @@ namespace InventoryManagment.Startup.ViewModels
         private readonly IUnitOfWork _context;
         private Category _editCategory;
         private BindableCollection<Category> _categories;
+        private Category _selectedCategory;
 
 
         public CategoryTabViewModel(IUnitOfWork context)
@@ -24,7 +25,7 @@ namespace InventoryManagment.Startup.ViewModels
             _context = context;
             DisplayName = "Categories";
             Categories = new BindableCollection<Category>(_context.Categories.GetAll());
-
+            EditCategory = new Category();
             ////if (Categories.Count > 0)
             ////    EditCategory = Categories[0];
         }
@@ -45,7 +46,7 @@ namespace InventoryManagment.Startup.ViewModels
             _context.Categories.Add(new Category() { CategoryName = EditCategory.CategoryName });
             _context.Complete();
             Categories = new BindableCollection<Category>(_context.Categories.GetAll());
-
+            NotifyOfPropertyChange(() => Categories);
         }
 
         public Category EditCategory
@@ -54,6 +55,16 @@ namespace InventoryManagment.Startup.ViewModels
             set
             {
                 _editCategory = value;
+                NotifyOfPropertyChange(() => EditCategory);
+            }
+        }
+
+        public Category SelectedCategory
+        {
+            get { return _selectedCategory; }
+            set
+            {
+                _selectedCategory = value;
                 NotifyOfPropertyChange(() => EditCategory);
             }
         }
@@ -75,7 +86,7 @@ namespace InventoryManagment.Startup.ViewModels
                         _context.Categories.Remove(EditCategory);
                         _context.Complete();
                         Categories = new BindableCollection<Category>(_context.Categories.GetAll());
-                        EditCategory = new Category();
+                        NotifyOfPropertyChange(() => Categories);
                     }
                     catch (Exception e)
                     {

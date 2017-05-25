@@ -20,5 +20,9 @@ namespace InventoryManagment.Models.Domains
         [ForeignKey("MobileId")]
         public Mobile Mobile { get; set; }
         public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal RetailPrice { get; set; }
+        public decimal TotalPrice { get; set; }
+
     }
 }

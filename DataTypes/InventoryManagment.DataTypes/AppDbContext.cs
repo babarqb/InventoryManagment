@@ -22,11 +22,12 @@ namespace InventoryManagment.DataTypes
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
+        public virtual DbSet<AccessoryType> AccessoryTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlCe(@"Data Source=C:/Data/InventoryManagmentDB.sdf");
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

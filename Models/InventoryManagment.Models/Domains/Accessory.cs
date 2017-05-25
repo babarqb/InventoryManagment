@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InventoryManagment.Models.Domains
@@ -7,8 +10,12 @@ namespace InventoryManagment.Models.Domains
     {
         [Key]
         public int AccessoryId { get; set; }
-        public string AccessoryName { get; set; }
+        [ForeignKey("AccessoryTypeId")]
+        public AccessoryType AccessoryType { get; set; }
+        public int AccessoryTypeId { get; set; }
         public decimal UnitPrice { get; set; }
+        public decimal TotalPrice { get; set; }
+        public decimal RetailUnitPrice { get; set; }
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
@@ -17,7 +24,22 @@ namespace InventoryManagment.Models.Domains
         public Brand Brand { get; set; }
         public int BrandId { get; set; }
         public int StockSize { get; set; }
-        public string AccessoryDiscripition { get; set; }
+        public string AccessoryCode { get; set; }
+        [ForeignKey("VendorId")]
+        public Vendor Vendor { get; set; }
+        public int VendorId { get; set; }
+        public string AccessoryModel { get; set; }
 
+    }
+
+    public class AccessoryType
+    {
+        public AccessoryType()
+        {
+            Accessories = new HashSet<Accessory>();
+        }
+        public int AccessoryTypeId { get; set; }
+        public string AccessoryTypeName { get; set; }
+        public ICollection<Accessory> Accessories { get; set; }
     }
 }

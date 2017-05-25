@@ -3,7 +3,7 @@ using InventoryManagment.Models.Domains;
 
 namespace InventoryManagment.DataTypes.Repositories
 {
-    public interface IAccessoryRepository
+    public interface IAccessoryRepository : IRepository<Accessory>
     {
         IEnumerable<Accessory> GetAllAccessory();
     }
