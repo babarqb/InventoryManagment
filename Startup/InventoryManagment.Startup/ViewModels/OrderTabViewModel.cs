@@ -30,6 +30,7 @@ namespace InventoryManagment.Startup.ViewModels
             //MobileModel.SelectedBrand = new Brand();
             MobileModel.EditMobile = new Mobile();
             EditPurchaseOrder = new PurchaseOrder();
+            //PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.Find(po => po.PurchaseOrder.BillNo == EditPurchaseOrder.BillNo));
             PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.GetAll());
         }
         public MobileTabViewModel MobileModel
@@ -130,8 +131,8 @@ namespace InventoryManagment.Startup.ViewModels
                     });
                     _context.Complete();
                 }
+                PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.Find(po => po.PurchaseOrder.BillNo == EditPurchaseOrder.BillNo));
 
-                PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.GetAll());
             }
         }
         public BindableCollection<PurchaseLineItem> PurchaseLineItems
@@ -183,6 +184,19 @@ namespace InventoryManagment.Startup.ViewModels
             }
 
         }
+
+        private PurchaseLineItem _purchaseLineItem;
+
+        public PurchaseLineItem PurchaseLineItem
+        {
+            get { return _purchaseLineItem; }
+            set
+            {
+                _purchaseLineItem = value;
+                NotifyOfPropertyChange(() => PurchaseLineItem);
+            }
+        }
+
 
     }
 }

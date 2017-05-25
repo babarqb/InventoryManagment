@@ -418,10 +418,44 @@
                                               controls:ControlsHelper.ContentCharacterCasing="Normal"
                                               Margin="0"
                                               Grid.Column="0">
-                                        <DataGrid x:Name="dataGrid"
+                                        <!--<DataGrid x:Name="dataGrid"
                                                   Margin="5"
                                                   AutoGenerateColumns="True"
-                                                  ItemsSource="{Binding PurchaseLineItems, Mode=TwoWay}" />
+                                                  ItemsSource="{Binding PurchaseLineItems, Mode=TwoWay}" />-->
+
+                                        <ListView Margin="5"
+                                                  BorderThickness="0"
+                                                  ItemsSource="{Binding Path=PurchaseLineItems, Mode=TwoWay}"
+                                                  SelectedIndex="0"
+                                                  SelectionMode="Single"
+                                                  SelectedItem="{Binding Path=PurchaseLineItem}"
+                                                  >
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn DisplayMemberBinding="{Binding BillNo}"
+                                                                    Header="BillNo"
+                                                                    Width="100" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Mobile.MobileModel}"
+                                                                    Header="Item Model"
+                                                                    Width="100" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Accessory.AccessoryModel}"
+                                                                    Header="AccessoryModel"
+                                                                    Width="100" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding Quantity}"
+                                                                    Header="Quantity"
+                                                                    Width="100" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding UnitPrice}"
+                                                                    Header="Price"
+                                                                    Width="100" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding RetailPrice}"
+                                                                    Header="RetailPrice"
+                                                                    Width="100" />
+                                                    <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}"
+                                                                    Header="Total Price"
+                                                                    Width="100" />
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
                                     </GroupBox>
 
                                 </Grid>
