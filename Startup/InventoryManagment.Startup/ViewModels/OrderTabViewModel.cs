@@ -216,6 +216,21 @@ namespace InventoryManagment.Startup.ViewModels
             if (EditPurchaseOrder != null)
             {
                 InsertDefaultMobileAndAccesory();
+                if (_context.PurchaseOrders.Find(po => po.BillNo == EditPurchaseOrder.BillNo).FirstOrDefault() != null)
+                {
+                   var oldOrder = _context.PurchaseOrders.Find(po => po.BillNo == EditPurchaseOrder.BillNo).FirstOrDefault();
+
+                    if (oldOrder != null)
+                    {
+                        oldOrder.VendorId = MobileModel.SelectedVendor.VendorId;
+                        oldOrder.AmountPay = EditPurchaseOrder.AmountPay;
+                        oldOrder.BillNo = EditPurchaseOrder.BillNo;
+                        oldOrder.Vendor = MobileModel.SelectedVendor;
+                        oldOrder.PurchaseOrderDate = EditPurchaseOrder.PurchaseOrderDate;
+                    }
+                    _context.Complete();
+                }
+                else { 
                 _context.PurchaseOrders.Add(new PurchaseOrder
                 {
                     VendorId = MobileModel.SelectedVendor.VendorId,
@@ -225,6 +240,7 @@ namespace InventoryManagment.Startup.ViewModels
                     PurchaseOrderDate = EditPurchaseOrder.PurchaseOrderDate
                 });
                 _context.Complete();
+                }
                 CanEditPurchaseOrder = false;
                 CanAddPurchaseOrder = true;
             }

@@ -406,7 +406,7 @@
                                                         Orientation="Horizontal">
                                                 <Button x:Name="CreatePOrder"
                                                         controls:ControlsHelper.ContentCharacterCasing="Normal"
-                                                        Content="Purchase Order"
+                                                        Content="Create/Edit Order"
                                                         Margin="2"
                                                         Height="38"
                                                         Width="137"
@@ -419,7 +419,7 @@
                                                         Style="{StaticResource AccentedSquareButtonStyle}"
                                                         controls:ControlsHelper.ContentCharacterCasing="Normal"
                                                         HorizontalAlignment="Right"
-                                                        Content="New Order"
+                                                        Content="Refresh Order"
                                                         Margin="2"
                                                         Width="129" />
 
@@ -647,23 +647,22 @@
                                                     <GridView>
                                                         <GridViewColumn DisplayMemberBinding="{Binding Mobile.MobileModel}"
                                                                         Header="Mobile Model"
-                                                                        Width="100" />
+                                                                        Width="130" />
                                                         <GridViewColumn DisplayMemberBinding="{Binding Accessory.AccessoryModel}"
-                                                                        Header="Accessory"
-                                                                        Width="100" />
-                                                        <GridViewColumn DisplayMemberBinding="{Binding UnitPrice}"
-                                                                        Header="UnitPrice"
-                                                                        Width="100" />
+                                                                        Header="Accessory Name"
+                                                                        Width="130" />
                                                         <GridViewColumn DisplayMemberBinding="{Binding Quantity}"
                                                                         Header="Quantity"
                                                                         Width="100" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding UnitPrice}"
+                                                                        Header="Unit Price"
+                                                                        Width="130" />
                                                         <GridViewColumn DisplayMemberBinding="{Binding RetailPrice}"
-                                                                        Header="RetailPrice"
-                                                                        Width="100" />
+                                                                        Header="Retail Price"
+                                                                        Width="130" />
                                                         <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}"
-                                                                        Header="RetailPrice"
-                                                                        Width="100" />
-
+                                                                        Header="Total Price"
+                                                                        Width="130" />
                                                     </GridView>
                                                 </ListView.View>
                                             </ListView>
