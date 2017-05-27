@@ -8,9 +8,10 @@ using InventoryManagment.DataTypes;
 namespace InventoryManagment.DataTypes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170527040538_AlterPurchaseOrder")]
+    partial class AlterPurchaseOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -447,7 +448,7 @@ namespace InventoryManagment.DataTypes.Migrations
                         .HasForeignKey("MobileId");
 
                     b.HasOne("InventoryManagment.Models.Domains.PurchaseOrder", "PurchaseOrder")
-                        .WithMany("PurchaseLineItems")
+                        .WithMany()
                         .HasForeignKey("PurchaseOrderId");
                 });
 

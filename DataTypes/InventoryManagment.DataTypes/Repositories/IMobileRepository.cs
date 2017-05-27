@@ -1,4 +1,5 @@
-﻿using InventoryManagment.Models.Domains;
+﻿using System.Collections.Generic;
+using InventoryManagment.Models.Domains;
 
 namespace InventoryManagment.DataTypes.Repositories
 {
@@ -6,5 +7,6 @@ namespace InventoryManagment.DataTypes.Repositories
     {
         void AddMobile(Mobile mobile);
         void UpdateEditMobile(int id);
+        IEnumerable<Mobile> GetAllMobiles();
     }
 }

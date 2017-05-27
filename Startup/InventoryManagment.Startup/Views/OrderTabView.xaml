@@ -39,6 +39,7 @@
                                     <RowDefinition Height="279*" />
                                 </Grid.RowDefinitions>
                                 <GroupBox Header="Mobile"
+                                          IsEnabled="{Binding CanAddPurchaseOrder}"
                                           controls:ControlsHelper.ContentCharacterCasing="Normal"
                                           Margin="10,0,10,5">
                                     <Grid>
@@ -96,6 +97,7 @@
                                                   Grid.Column="1" />
                                         <ComboBox Grid.Row="1"
                                                   Margin="2"
+                                                  IsEnabled="False"
                                                   ItemsSource="{Binding Path=MobileModel.VendorModel.Vendors, Mode=TwoWay}"
                                                   controls:TextBoxHelper.UseFloatingWatermark="True"
                                                   controls:TextBoxHelper.Watermark="Select Vendor"
@@ -131,7 +133,8 @@
                                                 Grid.Row="4"
                                                 Content="Add To Purchase Bill"
                                                 controls:ControlsHelper.ContentCharacterCasing="Normal"
-                                                Style="{StaticResource AccentedSquareButtonStyle}" />
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                Margin="4,0" />
                                         <Grid Grid.Column="2"
                                               Margin="2,2,2,0"
                                               Grid.RowSpan="4">
@@ -231,7 +234,7 @@
                                             <DatePicker Margin="2"
                                                         SelectedDate="{Binding MobileModel.EditMobile.WarrantyVoid, Mode=TwoWay}"
                                                         controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                        controls:TextBoxHelper.Watermark="Purchase Date"
+                                                        controls:TextBoxHelper.Watermark="Warranty Till"
                                                         VerticalContentAlignment="Center"
                                                         Grid.Row="3"
                                                         Grid.ColumnSpan="3" />
@@ -244,6 +247,7 @@
                                 </GroupBox>
                                 <GroupBox Header="Accessory"
                                           controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                          IsEnabled="{Binding CanAddPurchaseOrder}"
                                           Margin="0,0,10,5"
                                           Grid.Column="1">
                                     <Grid>
@@ -263,12 +267,13 @@
                                             <ColumnDefinition Width="227*" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBox controls:TextBoxHelper.UseFloatingWatermark="True"
+                                        <TextBox Text="{Binding Path=AccessoryModel.EditAccessory.AccessoryCode, Mode=TwoWay}"
+                                                 controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  controls:TextBoxHelper.Watermark="Accessory code"
                                                  VerticalContentAlignment="Center"
                                                  Margin="2"
                                                  Height="39" />
-                                        <TextBox Text="{Binding Path=EditMobile.MobilePrice, Mode=TwoWay}"
+                                        <TextBox Text="{Binding Path=AccessoryModel.EditAccessory.AccessoryModel, Mode=TwoWay}"
                                                  controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  controls:TextBoxHelper.Watermark="Accessory Model"
                                                  VerticalContentAlignment="Center"
@@ -276,71 +281,81 @@
                                                  Width="110"
                                                  Grid.Column="1" />
                                         <TextBox Grid.Row="1"
-                                                 Text="{Binding EditMobile.MobilePrice, Mode=TwoWay}"
+                                                 Text="{Binding Path=AccessoryModel.EditAccessory.UnitPrice, Mode=TwoWay}"
                                                  controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  controls:TextBoxHelper.Watermark="Unit Price"
                                                  Margin="2" />
                                         <TextBox Grid.Row="1"
-                                                 Text="{Binding EditMobile.MobilePrice, Mode=TwoWay}"
+                                                 Text="{Binding Path=AccessoryModel.EditAccessory.StockSize, Mode=TwoWay}"
                                                  controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  controls:TextBoxHelper.Watermark="Quantity"
                                                  Margin="2"
                                                  Grid.Column="1" />
-                                        <TextBox Text="{Binding EditMobile.FrontCamera, Mode=TwoWay}"
+                                        <TextBox Text="{Binding Path=AccessoryModel.EditAccessory.RetailUnitPrice, Mode=TwoWay}"
                                                  controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  controls:TextBoxHelper.Watermark="Retail Price "
                                                  VerticalContentAlignment="Center"
                                                  Height="39"
                                                  Grid.Row="2"
                                                  Margin="2" />
-                                        <TextBox Text="{Binding EditMobile.FrontCamera, Mode=TwoWay}"
+                                        <TextBox Text="{Binding Path=AccessoryModel.EditAccessory.TotalPrice, Mode=TwoWay}"
                                                  controls:TextBoxHelper.UseFloatingWatermark="True"
                                                  controls:TextBoxHelper.Watermark="TotalPrice "
                                                  VerticalContentAlignment="Center"
+                                                 IsEnabled="False"
                                                  Height="39"
                                                  Grid.Row="2"
                                                  Margin="1.333,4,3,0"
                                                  Width="110"
                                                  Grid.Column="1" />
                                         <DatePicker Grid.Row="3"
-                                                    SelectedDate="{Binding EditMobile.WarrantyVoid, Mode=TwoWay}"
+                                                    SelectedDate="{Binding EditPurchaseOrder.PurchaseOrderDate, Mode=TwoWay}"
                                                     controls:TextBoxHelper.UseFloatingWatermark="True"
                                                     controls:TextBoxHelper.Watermark="Purchase Date"
                                                     VerticalContentAlignment="Center"
                                                     Height="38"
                                                     Margin="2,2,3,1"
+                                                    IsEnabled="False"
                                                     Grid.ColumnSpan="2" />
-                                        <ComboBox ItemsSource="{Binding Path=CategoryModel.Categories, Mode=TwoWay}"
+                                        <ComboBox ItemsSource="{Binding Path=MobileModel.CategoryModel.Categories, Mode=TwoWay}"
                                                   controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                  controls:TextBoxHelper.Watermark="Select Category"
+                                                  controls:TextBoxHelper.Watermark="Select Accessory Category"
                                                   DisplayMemberPath="CategoryName"
-                                                  SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                                                  SelectedItem="{Binding MobileModel.SelectedCategory, Mode=TwoWay}"
                                                   Margin="2"
                                                   Grid.Column="2" />
                                         <ComboBox Grid.Row="1"
                                                   Margin="2"
-                                                  ItemsSource="{Binding Path=VendorModel.Vendors, Mode=TwoWay}"
+                                                  IsEnabled="False"
+                                                  ItemsSource="{Binding Path=MobileModel.VendorModel.Vendors, Mode=TwoWay}"
                                                   controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                  controls:TextBoxHelper.Watermark="Select Vendor"
+                                                  controls:TextBoxHelper.Watermark="Select Accessory Vendor"
                                                   DisplayMemberPath="VendorName"
-                                                  SelectedItem="{Binding SelectedVendor, Mode=TwoWay}"
+                                                  SelectedItem="{Binding MobileModel.SelectedVendor, Mode=TwoWay}"
                                                   Grid.Column="2" />
                                         <ComboBox Grid.Row="2"
-                                                  ItemsSource="{Binding BrandModel.Brands, Mode=TwoWay}"
+                                                  ItemsSource="{Binding MobileModel.BrandModel.Brands, Mode=TwoWay}"
                                                   controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                  controls:TextBoxHelper.Watermark="Select Brand"
+                                                  controls:TextBoxHelper.Watermark="Select Accessory Brand"
                                                   DisplayMemberPath="BrandName"
-                                                  SelectedItem="{Binding SelectedBrand, Mode=TwoWay}"
+                                                  SelectedItem="{Binding MobileModel.SelectedBrand, Mode=TwoWay}"
                                                   Margin="2"
                                                   Grid.Column="2" />
                                         <ComboBox Grid.Row="3"
-                                                  ItemsSource="{Binding PhoneTypes, Mode=TwoWay}"
-                                                  SelectedItem="{Binding SelectedPhoneType, Mode=TwoWay}"
+                                                  ItemsSource="{Binding AccessoryModel.Accessories, Mode=TwoWay}"
+                                                  SelectedItem="{Binding AccessoryModel.SelectedAccessory, Mode=TwoWay}"
                                                   controls:TextBoxHelper.UseFloatingWatermark="True"
-                                                  controls:TextBoxHelper.Watermark="Select Type"
-                                                  DisplayMemberPath="TypeName"
+                                                  controls:TextBoxHelper.Watermark="Select Accessory Type"
+                                                  DisplayMemberPath="AccessoryTypeName"
                                                   Margin="2"
                                                   Grid.Column="2" />
+                                        <Button x:Name="AddAccessory"
+                                                Grid.Column="2"
+                                                Margin="2"
+                                                Grid.Row="4"
+                                                Content="Add To  Bill"
+                                                controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                                Style="{StaticResource AccentedSquareButtonStyle}" />
 
                                     </Grid>
 
@@ -390,23 +405,22 @@
                                             <StackPanel Margin="2"
                                                         Orientation="Horizontal">
                                                 <Button x:Name="CreatePOrder"
-                                                        HorizontalContentAlignment="Left"
-                                                        Content="Add New POrder"
+                                                        controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                                        Content="Purchase Order"
                                                         Margin="2"
                                                         Height="38"
                                                         Width="137"
-                                                        IsEnabled="{Binding CanEditPurchaseOrder}"/>
-                                                    
-                                                
-                                                        
-                                                <Button cal:Bind.Model="{Binding MobileModel}"
-                                                        cal:Message.Attach="AddMobile"
-                                                        HorizontalContentAlignment="Right"
+                                                        Style="{StaticResource AccentedSquareButtonStyle}"
+                                                        IsEnabled="{Binding CanEditPurchaseOrder}" />
+
+
+
+                                                <Button x:Name="NewPurchaseOrder"
+                                                        Style="{StaticResource AccentedSquareButtonStyle}"
+                                                        controls:ControlsHelper.ContentCharacterCasing="Normal"
                                                         HorizontalAlignment="Right"
-                                                        Content="Add Order Items"
-                                                        
+                                                        Content="New Order"
                                                         Margin="2"
-                                                        Height="38"
                                                         Width="129" />
 
                                             </StackPanel>
@@ -428,18 +442,18 @@
                                                   ItemsSource="{Binding Path=PurchaseLineItems, Mode=TwoWay}"
                                                   SelectedIndex="0"
                                                   SelectionMode="Single"
-                                                  SelectedItem="{Binding Path=PurchaseLineItem}"
-                                                  >
+                                                  controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                                  SelectedItem="{Binding Path=PurchaseLineItem}">
                                             <ListView.View>
                                                 <GridView>
-                                                    <GridViewColumn DisplayMemberBinding="{Binding BillNo}"
+                                                    <GridViewColumn DisplayMemberBinding="{Binding PurchaseOrder.BillNo}"
                                                                     Header="BillNo"
                                                                     Width="100" />
                                                     <GridViewColumn DisplayMemberBinding="{Binding Mobile.MobileModel}"
                                                                     Header="Item Model"
                                                                     Width="100" />
                                                     <GridViewColumn DisplayMemberBinding="{Binding Accessory.AccessoryModel}"
-                                                                    Header="AccessoryModel"
+                                                                    Header="Accessory"
                                                                     Width="100" />
                                                     <GridViewColumn DisplayMemberBinding="{Binding Quantity}"
                                                                     Header="Quantity"
@@ -469,6 +483,195 @@
                                                Margin="5,0,0,0">All Orders</TextBlock>
                                 </ItemContainerTemplate>
                             </controls:MetroTabItem.HeaderTemplate>
+                            <Grid Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="43*" />
+                                    <ColumnDefinition Width="167*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="54*" />
+                                    <RowDefinition Height="215*" />
+                                </Grid.RowDefinitions>
+                                <GroupBox Header="Find Purchase Orders"
+                                          controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                          Margin="10,6"
+                                          Height="95"
+                                          Grid.ColumnSpan="2">
+                                    <Grid Margin="5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="60*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"
+                                                              MinWidth="245" />
+                                            <ColumnDefinition Width="Auto"
+                                                              MinWidth="30" />
+                                            <ColumnDefinition Width="241" />
+                                            <ColumnDefinition Width="33" />
+                                            <ColumnDefinition Width="139" />
+                                            <ColumnDefinition Width="Auto"
+                                                              MinWidth="336" />
+
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="SearchByModel"
+                                                Margin="2"
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                BorderThickness="0"
+                                                Height="39">
+                                            <iconPacks:PackIconFontAwesome Kind="Search"
+                                                                           Width="15"
+                                                                           Height="20" />
+
+                                        </Button>
+                                        <TextBox Grid.Row="0"
+                                                 Grid.Column="0"
+                                                 Margin="2"
+                                                 controls:TextBoxHelper.Watermark="Search by BillNo"
+                                                 controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                 VerticalContentAlignment="Center"
+                                                 Text="{Binding Path=EditMobile.MobileModel, Mode=TwoWay}"
+                                                 Height="39" />
+                                        <ComboBox Grid.Column="2"
+                                                  Margin="5,2"
+                                                  ItemsSource="{Binding Path=MobileModel.VendorModel.Vendors, Mode=TwoWay}"
+                                                  DisplayMemberPath="VendorName"
+                                                  SelectedItem="{Binding VendorModel.SelectedVendor,Mode=TwoWay}"
+                                                  controls:TextBoxHelper.Watermark="Search by Vendor"
+                                                  controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                  Height="39" />
+
+                                        <Button x:Name="SearchByBrand"
+                                                Grid.Column="3"
+                                                Margin="5,2"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                BorderThickness="0"
+                                                Height="39">
+                                            <iconPacks:PackIconFontAwesome Kind="Search"
+                                                                           Width="15"
+                                                                           Height="20" />
+                                        </Button>
+
+                                        <Button x:Name="AllPurchaseorders"
+                                                Grid.Column="4"
+                                                Margin="5,0,11,5"
+                                                Height="31"
+                                                Style="{StaticResource AccentedSquareButtonStyle}"
+                                                controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                                VerticalAlignment="Bottom"
+                                                BorderThickness="0">All Purchase Order</Button>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox"
+                                          Header="Purchase Orders"
+                                          Margin="10,5,5,10"
+                                          Grid.Row="1">
+                                    <ListView Margin="5"
+                                              BorderThickness="0"
+                                              ItemsSource="{Binding Path=PurchaseOrders, Mode=TwoWay}"
+                                              SelectedIndex="0"
+                                              SelectionMode="Single"
+                                              controls:ControlsHelper.ContentCharacterCasing="Normal"
+                                              SelectedItem="{Binding Path=SelectedPurchaseOrder}">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding PurchaseOrderDate}"
+                                                                Header="Bill Date"
+                                                                Width="100" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding BillNo}"
+                                                                Header="BillNo"
+                                                                Width="100" />
+
+
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </GroupBox>
+                                <GroupBox x:Name="groupBox_Copy"
+                                          Header="Purchase Orders"
+                                          Margin="5,5,10,10"
+                                          Grid.Row="1"
+                                          Grid.Column="1">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="49*" />
+                                            <RowDefinition Height="139*" />
+                                        </Grid.RowDefinitions>
+                                        <GroupBox x:Name="vendor_detail"
+                                                  Header="Vendor Detail"
+                                                  Margin="0,5">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding Path=SelectedPurchaseOrder.Vendor.VendorName, Mode=TwoWay}"
+                                                         controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                         controls:TextBoxHelper.Watermark="Vendor Name"
+                                                         VerticalContentAlignment="Center"
+                                                         Margin="2,6,2,4"
+                                                         Height="39"
+                                                         Width="176" />
+                                                <TextBox Text="{Binding Path=SelectedPurchaseOrder.Vendor.City, Mode=TwoWay}"
+                                                         controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                         controls:TextBoxHelper.Watermark="Vendor City"
+                                                         VerticalContentAlignment="Center"
+                                                         Margin="2,6,2,4"
+                                                         Height="39"
+                                                         Width="128" />
+                                                <TextBox Text="{Binding Path=SelectedPurchaseOrder.Vendor.Contact, Mode=TwoWay}"
+                                                         controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                         controls:TextBoxHelper.Watermark="Vendor Contact No"
+                                                         VerticalContentAlignment="Center"
+                                                         Margin="2,6,2,4"
+                                                         Height="39"
+                                                         Width="159" />
+                                                <TextBox Text="{Binding Path=SelectedPurchaseOrder.AmountPay, Mode=TwoWay}"
+                                                         controls:TextBoxHelper.UseFloatingWatermark="True"
+                                                         controls:TextBoxHelper.Watermark="Total Bill Amount"
+                                                         VerticalContentAlignment="Center"
+                                                         Margin="2,6,2,4"
+                                                         Height="39"
+                                                         Width="186" />
+                                            </StackPanel>
+                                        </GroupBox>
+                                        <GroupBox x:Name="ProductItemsList"
+                                                  Header="Product List"
+                                                  Margin="0,10,0,0"
+                                                  Grid.Row="1">
+                                            <ListView Margin="5"
+                                                      BorderThickness="0"
+                                                      ItemsSource="{Binding Path=SelectedPurchaseOrder.PurchaseLineItems, Mode=TwoWay}"
+                                                      SelectedIndex="0"
+                                                      SelectionMode="Single"
+                                                      controls:ControlsHelper.ContentCharacterCasing="Normal">
+                                                <ListView.View>
+                                                    <GridView>
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Mobile.MobileModel}"
+                                                                        Header="Mobile Model"
+                                                                        Width="100" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Accessory.AccessoryModel}"
+                                                                        Header="Accessory"
+                                                                        Width="100" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding UnitPrice}"
+                                                                        Header="UnitPrice"
+                                                                        Width="100" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding Quantity}"
+                                                                        Header="Quantity"
+                                                                        Width="100" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding RetailPrice}"
+                                                                        Header="RetailPrice"
+                                                                        Width="100" />
+                                                        <GridViewColumn DisplayMemberBinding="{Binding TotalPrice}"
+                                                                        Header="RetailPrice"
+                                                                        Width="100" />
+
+                                                    </GridView>
+                                                </ListView.View>
+                                            </ListView>
+                                        </GroupBox>
+                                    </Grid>
+                                </GroupBox>
+
+                            </Grid>
 
                         </controls:MetroTabItem>
                     </controls:MetroAnimatedTabControl>

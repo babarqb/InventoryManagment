@@ -221,6 +221,18 @@
     <Compile Include="Migrations\20170525080029_SetPrimaryKeyofPurchaseOrderModel.designer.cs">
       <DependentUpon>20170525080029_SetPrimaryKeyofPurchaseOrderModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20170526195516_alteringmodel.cs" />
+    <Compile Include="Migrations\20170526195516_alteringmodel.designer.cs">
+      <DependentUpon>20170526195516_alteringmodel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170527040538_AlterPurchaseOrder.cs" />
+    <Compile Include="Migrations\20170527040538_AlterPurchaseOrder.designer.cs">
+      <DependentUpon>20170527040538_AlterPurchaseOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20170527061933_AlterPurchaseOrder2.cs" />
+    <Compile Include="Migrations\20170527061933_AlterPurchaseOrder2.designer.cs">
+      <DependentUpon>20170527061933_AlterPurchaseOrder2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\IPurchaseLineItemRepository.cs" />
     <Compile Include="Repositories\IPurchaseOrderRepository.cs" />
     <Compile Include="Migrations\20170524194939_IntialMigrations.cs" />

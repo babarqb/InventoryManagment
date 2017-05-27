@@ -6,6 +6,7 @@ namespace InventoryManagment.DataTypes.Repositories
     {
         IMobileRepository Mobiles { get; set; }
         IAccessoryRepository Accessories { get; }
+        IAccessoryTypeRepository AccessoryTypes { get; }
         IBrandRepository Brands { get; }
         IVendorRepository Vendors { get; }
         IOrderRepository Orders { get; }

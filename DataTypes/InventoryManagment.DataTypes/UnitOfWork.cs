@@ -2,6 +2,8 @@
 using System.Text;
 using System.Threading.Tasks;
 using InventoryManagment.DataTypes.Repositories;
+using InventoryManagment.Models.Domains;
+using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagment.DataTypes
 {
@@ -13,6 +15,7 @@ namespace InventoryManagment.DataTypes
             _context = context;
             Mobiles = new MobileRepository(_context);
             Accessories = new AccessoryRepository(_context);
+            AccessoryTypes = new AccessoryTypeRepository(_context);
             Brands = new BrandRepository(_context);
             Vendors = new VendorRepository(_context);
             Orders = new OrderRepository(_context);
@@ -25,6 +28,8 @@ namespace InventoryManagment.DataTypes
             PurchaseLineItems = new PurchaseLineItemRepository(_context);
 
         }
+
+        public IAccessoryTypeRepository AccessoryTypes { get; set; }
 
         public IPurchaseLineItemRepository PurchaseLineItems { get; set; }
         public IPurchaseOrderRepository PurchaseOrders { get; set; }
@@ -50,5 +55,17 @@ namespace InventoryManagment.DataTypes
             _context.Dispose();
         }
 
+    }
+
+    public class AccessoryTypeRepository : Repository<AccessoryType>, IAccessoryTypeRepository
+    {
+        public AccessoryTypeRepository(DbContext context) : base(context)
+        {
+
+        }
+    }
+
+    public interface IAccessoryTypeRepository : IRepository<AccessoryType>
+    {
     }
 }

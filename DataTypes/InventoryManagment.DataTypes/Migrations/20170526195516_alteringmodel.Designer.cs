@@ -8,9 +8,10 @@ using InventoryManagment.DataTypes;
 namespace InventoryManagment.DataTypes.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170526195516_alteringmodel")]
+    partial class alteringmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2");
@@ -30,8 +31,6 @@ namespace InventoryManagment.DataTypes.Migrations
 
                     b.Property<int>("CategoryId");
 
-                    b.Property<int?>("PurchaseOrderId");
-
                     b.Property<decimal>("RetailUnitPrice");
 
                     b.Property<int>("StockSize");
@@ -49,8 +48,6 @@ namespace InventoryManagment.DataTypes.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("PurchaseOrderId");
 
                     b.HasIndex("VendorId");
 
@@ -186,8 +183,6 @@ namespace InventoryManagment.DataTypes.Migrations
 
                     b.Property<string>("Os");
 
-                    b.Property<int?>("PurchaseOrderId");
-
                     b.Property<string>("Ram");
 
                     b.Property<string>("RearCamera");
@@ -207,8 +202,6 @@ namespace InventoryManagment.DataTypes.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("PurchaseOrderId");
 
                     b.HasIndex("VendorId");
 
@@ -357,10 +350,6 @@ namespace InventoryManagment.DataTypes.Migrations
                         .WithMany("Accessories")
                         .HasForeignKey("CategoryId");
 
-                    b.HasOne("InventoryManagment.Models.Domains.PurchaseOrder")
-                        .WithMany("Accessories")
-                        .HasForeignKey("PurchaseOrderId");
-
                     b.HasOne("InventoryManagment.Models.Domains.Vendor", "Vendor")
                         .WithMany("Accessories")
                         .HasForeignKey("VendorId");
@@ -397,10 +386,6 @@ namespace InventoryManagment.DataTypes.Migrations
                     b.HasOne("InventoryManagment.Models.Domains.Category", "Category")
                         .WithMany("Mobiles")
                         .HasForeignKey("CategoryId");
-
-                    b.HasOne("InventoryManagment.Models.Domains.PurchaseOrder")
-                        .WithMany("Mobiles")
-                        .HasForeignKey("PurchaseOrderId");
 
                     b.HasOne("InventoryManagment.Models.Domains.Vendor", "Vendor")
                         .WithMany("Mobiles")
@@ -447,7 +432,7 @@ namespace InventoryManagment.DataTypes.Migrations
                         .HasForeignKey("MobileId");
 
                     b.HasOne("InventoryManagment.Models.Domains.PurchaseOrder", "PurchaseOrder")
-                        .WithMany("PurchaseLineItems")
+                        .WithMany()
                         .HasForeignKey("PurchaseOrderId");
                 });
 

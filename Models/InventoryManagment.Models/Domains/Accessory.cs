@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -30,16 +29,5 @@ namespace InventoryManagment.Models.Domains
         public int VendorId { get; set; }
         public string AccessoryModel { get; set; }
 
-    }
-
-    public class AccessoryType
-    {
-        public AccessoryType()
-        {
-            Accessories = new HashSet<Accessory>();
-        }
-        public int AccessoryTypeId { get; set; }
-        public string AccessoryTypeName { get; set; }
-        public ICollection<Accessory> Accessories { get; set; }
     }
 }

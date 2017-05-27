@@ -37,7 +37,7 @@ namespace InventoryManagment.Startup.ViewModels
             VendorModel = vendorModel;
             BrandModel = brandModel;
             DisplayName = "Mobiles";
-            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
             EditMobile = new Mobile();
             SelectedPhoneType = new PhoneType() { TypeName = "SmartPhone" };
             _editMobile.StockSize = 1;
@@ -292,7 +292,7 @@ namespace InventoryManagment.Startup.ViewModels
                     catch (Exception e)
                     {
                         await DialogService.ShowMessage(
-                            "Adding the new Mobile is impossible! Please fill all the filed carefully and try agian.",
+                            "Adding the new Mobile is not possible! Please fill all the filed carefully and try agian.",
                             "Adding " + EditMobile.MobileModel + "have some issue - Error",
                             MessageDialogStyle.Affirmative);
                     }
@@ -307,13 +307,13 @@ namespace InventoryManagment.Startup.ViewModels
             if (!string.IsNullOrEmpty(EditMobile.MobileModel))
             {
                 MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.Find(m => m.MobileModel.ToUpper()
-                    .Contains(EditMobile.MobileModel.ToUpper())));
+                    .Contains(EditMobile.MobileModel.ToUpper()) && m.MobileModel != "--"));
                 EditMobile.MobileModel = "";
 
             }
             else
             {
-                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
                 NotifyOfPropertyChange(() => EditMobile);
             }
         }
@@ -325,7 +325,7 @@ namespace InventoryManagment.Startup.ViewModels
             {
                 _canDatePickerShow = value;
                 NotifyOfPropertyChange(() => CanDatePickerShow);
-                
+
             }
         }
 
@@ -335,12 +335,12 @@ namespace InventoryManagment.Startup.ViewModels
             {
                 MobileFromQuery =
                     new BindableCollection<Mobile>(
-                        _context.Mobiles.Find(m => m.Category.CategoryName == SelectedCategory.CategoryName));
+                        _context.Mobiles.Find(m => m.Category.CategoryName == SelectedCategory.CategoryName && m.MobileModel != "--"));
                 NotifyOfPropertyChange(() => MobileFromQuery);
             }
             else
             {
-                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
                 NotifyOfPropertyChange(() => SelectedCategory);
             }
         }
@@ -351,12 +351,12 @@ namespace InventoryManagment.Startup.ViewModels
             {
                 MobileFromQuery =
                     new BindableCollection<Mobile>(
-                        _context.Mobiles.Find(m => m.Vendor.VendorName == SelectedVendor.VendorName));
+                        _context.Mobiles.Find(m => m.Vendor.VendorName == SelectedVendor.VendorName && m.MobileModel != "--"));
                 NotifyOfPropertyChange(() => MobileFromQuery);
             }
             else
             {
-                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
                 NotifyOfPropertyChange(() => SelectedVendor);
             }
         }
@@ -367,19 +367,19 @@ namespace InventoryManagment.Startup.ViewModels
             {
                 MobileFromQuery =
                     new BindableCollection<Mobile>(
-                        _context.Mobiles.Find(m => m.Brand.BrandName == SelectedBrand.BrandName));
+                        _context.Mobiles.Find(m => m.Brand.BrandName == SelectedBrand.BrandName && m.MobileModel != "--"));
                 NotifyOfPropertyChange(() => MobileFromQuery);
             }
             else
             {
-                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
                 NotifyOfPropertyChange(() => SelectedBrand);
             }
         }
 
         public void AllMobiles()
         {
-            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+            MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
         }
 
         public async void UpdateMobile()
@@ -403,7 +403,7 @@ namespace InventoryManagment.Startup.ViewModels
                         EditMobile.Condition = SelectedCondition.ConditionName;
                         _context.Mobiles.UpdateEditMobile(EditMobile.MobileId);
                         _context.Complete();
-                        MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAll());
+                        MobileFromQuery = new BindableCollection<Mobile>(_context.Mobiles.GetAllMobiles());
                         NotifyOfPropertyChange(() => SelectedMobile);
                         //NotifyOfPropertyChange(()=>SelectedBrand);
                         //NotifyOfPropertyChange(()=>SelectedVendor);

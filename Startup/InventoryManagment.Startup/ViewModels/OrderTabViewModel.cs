@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Caliburn.Micro;
 using InventoryManagment.DataTypes.Repositories;
 using InventoryManagment.Models.Domains;
@@ -15,7 +16,8 @@ namespace InventoryManagment.Startup.ViewModels
         private AccessoryTabViewModel _accessoryModel;
         private BindableCollection<PurchaseLineItem> _purchasseLineItems;
 
-        public OrderTabViewModel(IUnitOfWork context, MobileTabViewModel mobileModel, AccessoryTabViewModel accessoryModel)
+        public OrderTabViewModel(IUnitOfWork context, MobileTabViewModel mobileModel,
+            AccessoryTabViewModel accessoryModel)
         {
             MobileModel = mobileModel;
             _context = context;
@@ -30,8 +32,11 @@ namespace InventoryManagment.Startup.ViewModels
             //MobileModel.SelectedBrand = new Brand();
             MobileModel.EditMobile = new Mobile();
             EditPurchaseOrder = new PurchaseOrder();
+
+
             //PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.Find(po => po.PurchaseOrder.BillNo == EditPurchaseOrder.BillNo));
-            PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.GetAll());
+            PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.GetAllItems());
+            PurchaseOrders = new BindableCollection<PurchaseOrder>(_context.PurchaseOrders.GetAll());
         }
         public MobileTabViewModel MobileModel
         {
@@ -94,26 +99,10 @@ namespace InventoryManagment.Startup.ViewModels
                 });
 
                 _context.Complete();
-                //var acccesory = new Accessory()
-                //{
-                //    AccessoryId = 0,
-                //    AccessoryType = new AccessoryType(),
-                //    UnitPrice = 0,
-                //    TotalPrice = 0,
-                //    RetailUnitPrice = 0,
-                //    Category = new Category(),
-                //    CategoryId = 0,
-                //    Brand = new Brand(),
-                //    BrandId = 0,
-                //    StockSize = 0,
-                //    AccessoryModel = "Nill",
-                //    Vendor = new Vendor(),
-                //    VendorId = 0,
-                //    AccessoryTypeId = 0
-                //};
+
                 var mobile = _context.Mobiles.Find(m => m.Imei1 == MobileModel.EditMobile.Imei1).First();
                 var pOrder = _context.PurchaseOrders.Find(po => po.BillNo == EditPurchaseOrder.BillNo).First();
-                var acccesory = _context.Accessories.Find(a => a.AccessoryModel == "Nill").First();
+                var acccesory = _context.Accessories.Find(a => a.AccessoryModel == "--").First();
                 if (EditPurchaseOrder.BillNo != null && mobile.Imei1 == MobileModel.EditMobile.Imei1)
                 {
                     _context.PurchaseLineItems.Add(new PurchaseLineItem
@@ -135,6 +124,61 @@ namespace InventoryManagment.Startup.ViewModels
 
             }
         }
+
+        private void InsertDefaultMobileAndAccesory()
+        {
+            var tempAccessory = new Accessory()
+            {
+                //AccessoryType = new AccessoryType(),
+                UnitPrice = 0,
+                TotalPrice = 0,
+                RetailUnitPrice = 0,
+                //Category = new Category(),
+                CategoryId = _context.Categories.Get(1).CategoryId,
+                //Brand = new Brand(),
+                BrandId = _context.Brands.Get(1).BrandId,
+                StockSize = 0,
+                AccessoryModel = "--",
+                //Vendor = new Vendor(),
+                VendorId = _context.Vendors.Get(1).VendorId,
+                AccessoryTypeId = _context.AccessoryTypes.Get(1).AccessoryTypeId,
+                AccessoryCode = "--"
+            };
+            var tempMob = new Mobile()
+            {
+                MobileModel = "--",
+                //Category = new Category(),
+                CategoryId = _context.Categories.Get(1).CategoryId,
+                //Brand = new Brand(),
+                BrandId = _context.Brands.Get(1).BrandId,
+                //Vendor = new Vendor(),
+                VendorId = _context.Vendors.Get(1).VendorId,
+                Imei1 = "--",
+                Imei2 = "--",
+                Condition = "--",
+                Type = "--",
+                Ram = "--",
+                Rom = "--",
+                Battary = "--",
+                Cpu = "--",
+                MobilePrice = 0,
+                MobileRetailPrice = 0,
+                StockSize = 0,
+                Display = "--",
+                Os = "--",
+                RearCamera = "--",
+                FrontCamera = "--",
+                WarrantyVoid = DateTime.Now,
+            };
+            if (_context.Accessories.Find(m => m.AccessoryModel == "--").FirstOrDefault() == null &&
+                _context.Mobiles.Find(m => m.MobileModel == "--").FirstOrDefault() == null)
+            {
+                _context.Accessories.Add(tempAccessory);
+                _context.Mobiles.Add(tempMob);
+                _context.Complete();
+            }
+        }
+
         public BindableCollection<PurchaseLineItem> PurchaseLineItems
         {
             get { return _purchasseLineItems; }
@@ -171,6 +215,7 @@ namespace InventoryManagment.Startup.ViewModels
         {
             if (EditPurchaseOrder != null)
             {
+                InsertDefaultMobileAndAccesory();
                 _context.PurchaseOrders.Add(new PurchaseOrder
                 {
                     VendorId = MobileModel.SelectedVendor.VendorId,
@@ -181,6 +226,7 @@ namespace InventoryManagment.Startup.ViewModels
                 });
                 _context.Complete();
                 CanEditPurchaseOrder = false;
+                CanAddPurchaseOrder = true;
             }
 
         }
@@ -196,7 +242,102 @@ namespace InventoryManagment.Startup.ViewModels
                 NotifyOfPropertyChange(() => PurchaseLineItem);
             }
         }
+        private bool _canAddPurchaseOrder = false;
+        private BindableCollection<PurchaseOrder> _purchaseOrders;
+        private PurchaseOrder _selectedPurchaseOrder;
 
+        public bool CanAddPurchaseOrder
+        {
+            get { return _canAddPurchaseOrder; }
+            set
+            {
+                _canAddPurchaseOrder = value;
+                NotifyOfPropertyChange(() => CanAddPurchaseOrder);
+            }
+        }
 
+        public void NewPurchaseOrder()
+        {
+            EditPurchaseOrder = new PurchaseOrder();
+            MobileModel.EditMobile = new Mobile();
+            MobileModel.SelectedCategory = MobileModel.EditMobile.Category;
+            MobileModel.SelectedBrand = MobileModel.EditMobile.Brand;
+
+            MobileModel.SelectedVendor = MobileModel.EditMobile.Vendor;
+            MobileModel.SelectedPhoneType = MobileModel.SelectedPhoneType;
+            MobileModel.SelectedCondition = MobileModel.SelectedCondition;
+            PurchaseLineItem = new PurchaseLineItem();
+            CanEditPurchaseOrder = true;
+            CanAddPurchaseOrder = false;
+            PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.GetAllItems());
+
+        }
+
+        public void AddAccessory()
+        {
+            if (AccessoryModel.EditAccessory != null)
+            {
+                _context.Accessories.Add(new Accessory
+                {
+                    AccessoryType = AccessoryModel.SelectedAccessory,
+                    AccessoryTypeId = AccessoryModel.EditAccessory.AccessoryTypeId,
+                    UnitPrice = AccessoryModel.EditAccessory.UnitPrice,
+                    TotalPrice = AccessoryModel.EditAccessory.UnitPrice * AccessoryModel.EditAccessory.StockSize,
+                    RetailUnitPrice = AccessoryModel.EditAccessory.RetailUnitPrice,
+                    StockSize = AccessoryModel.EditAccessory.StockSize,
+                    AccessoryModel = AccessoryModel.EditAccessory.AccessoryModel,
+                    AccessoryCode = AccessoryModel.EditAccessory.AccessoryCode,
+                    BrandId = MobileModel.SelectedBrand.BrandId,
+                    VendorId = MobileModel.SelectedVendor.VendorId,
+                    CategoryId = MobileModel.SelectedCategory.CategoryId,
+                    Brand = MobileModel.SelectedBrand,
+                    Vendor = MobileModel.SelectedVendor,
+                    Category = MobileModel.SelectedCategory
+                });
+                _context.Complete();
+                var mob = _context.Mobiles.Find(m => m.MobileModel == "--").First();
+                var accessory = _context.Accessories.Find(a => a.AccessoryCode == AccessoryModel.EditAccessory.AccessoryCode).First();
+                var pOrder = _context.PurchaseOrders.Find(po => po.BillNo == EditPurchaseOrder.BillNo).First();
+
+                if (EditPurchaseOrder.BillNo != null && mob.MobileModel == "--")
+                {
+                    _context.PurchaseLineItems.Add(new PurchaseLineItem
+                    {
+                        PurchaseOrderId = pOrder.PurchaseOrderId,
+                        AccessoryId = accessory.AccessoryId,
+                        MobileId = mob.MobileId,
+                        Quantity = accessory.StockSize,
+                        UnitPrice = accessory.UnitPrice,
+                        RetailPrice = accessory.RetailUnitPrice,
+                        TotalPrice = accessory.UnitPrice * accessory.StockSize,
+                        Accessory = accessory,
+                        Mobile = mob,
+                        PurchaseOrder = pOrder
+                    });
+                    _context.Complete();
+                }
+                PurchaseLineItems = new BindableCollection<PurchaseLineItem>(_context.PurchaseLineItems.Find(po => po.PurchaseOrder.BillNo == EditPurchaseOrder.BillNo));
+            }
+        }
+
+        public BindableCollection<PurchaseOrder> PurchaseOrders
+        {
+            get { return _purchaseOrders; }
+            set
+            {
+                _purchaseOrders = value;
+                NotifyOfPropertyChange(() => PurchaseOrders);
+            }
+        }
+
+        public PurchaseOrder SelectedPurchaseOrder
+        {
+            get { return _selectedPurchaseOrder; }
+            set
+            {
+                _selectedPurchaseOrder = value;
+                NotifyOfPropertyChange(() => SelectedPurchaseOrder);
+            }
+        }
     }
 }

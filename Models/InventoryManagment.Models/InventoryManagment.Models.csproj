@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domains\Accessory.cs" />
+    <Compile Include="Domains\AccessoryType.cs" />
     <Compile Include="Domains\PurchaseBill.cs" />
     <Compile Include="Domains\Brand.cs" />
     <Compile Include="Domains\Category.cs" />
